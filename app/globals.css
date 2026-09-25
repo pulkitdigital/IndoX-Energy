@@ -1,0 +1,282 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* Theme is class-based (next-themes). Components should use semantic tokens, not `dark:`. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+ * Brand colors (final logo) — the ONLY place brand hex values live.
+ * See CLAUDE.md → "Theme & color rules".
+ * ------------------------------------------------------------------ */
+:root {
+  --brand-blue: #0e4c9e;
+  --brand-green: #398d41;
+  --brand-lime: #4ba826;
+  --brand-blue-glow: #3d86e0;
+  --white: #ffffff;
+  --ink: #050505;
+}
+
+/* ------------------------------------------------------------------
+ * Semantic tokens — LIGHT (default :root)
+ * ------------------------------------------------------------------ */
+:root {
+  --bg: #ffffff;
+  --bg-elevated: #f5f7fa;
+  --surface: #ffffff;
+  --surface-hover: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0b1220;
+  --text-muted: #5b6472;
+
+  --primary: var(--brand-blue);
+  --primary-hover: #0b3f84;
+  --primary-foreground: var(--white);
+  --accent: var(--brand-green);
+  --accent-foreground: var(--white);
+  --accent-soft: rgb(57 141 65 / 0.1);
+  --link: var(--brand-blue);
+  --link-soft: rgb(14 76 158 / 0.08);
+
+  /* Our Approach line start — brand-blue reads fine on white */
+  --flow-start: var(--brand-blue);
+  /* Hero radial glow (allowed gradient #2) — soft tint in light */
+  --glow: rgb(14 76 158 / 0.07);
+  --grid-line: rgb(11 18 32 / 0.05);
+  --overlay: rgb(255 255 255 / 0.82);
+  --elevation-card: 0 12px 32px -16px rgb(11 18 32 / 0.18);
+  --danger: #c2261d;
+  /* Footer truck overall opacity (decorative; footer text stays full contrast) */
+  --truck-opacity: 0.13;
+
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------
+ * Semantic tokens — DARK
+ * ------------------------------------------------------------------ */
+.dark {
+  --bg: #050505;
+  --bg-elevated: #0d0d0d;
+  --surface: #111111;
+  --surface-hover: #161616;
+  --border: #1f1f1f;
+  --border-strong: #2e2e2e;
+  --text: #ffffff;
+  --text-muted: #a3a3a3;
+
+  --primary: var(--brand-blue);
+  --primary-hover: #1459b6;
+  --primary-foreground: var(--white);
+  --accent: var(--brand-lime);
+  --accent-foreground: var(--ink);
+  --accent-soft: rgb(75 168 38 / 0.14);
+  /* brand-blue is ~2.5:1 on this bg → links/text/strokes use the glow tint */
+  --link: var(--brand-blue-glow);
+  --link-soft: rgb(61 134 224 / 0.14);
+
+  --flow-start: var(--brand-blue-glow);
+  --glow: rgb(61 134 224 / 0.16);
+  --grid-line: rgb(255 255 255 / 0.045);
+  --overlay: rgb(5 5 5 / 0.75);
+  --elevation-card: 0 12px 32px -16px rgb(0 0 0 / 0.7);
+  --danger: #f2665c;
+  --truck-opacity: 0.18;
+
+  color-scheme: dark;
+}
+
+/* shadcn/ui variable names, mapped onto the semantic tokens */
+:root,
+.dark {
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --secondary: var(--bg-elevated);
+  --secondary-foreground: var(--text);
+  --muted: var(--bg-elevated);
+  --muted-foreground: var(--text-muted);
+  --destructive: var(--danger);
+  --input: var(--border-strong);
+  --ring: var(--link);
+  --chart-1: var(--brand-blue);
+  --chart-2: var(--brand-blue-glow);
+  --chart-3: var(--brand-green);
+  --chart-4: var(--brand-lime);
+  --chart-5: var(--text-muted);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--text-muted);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--danger);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-link: var(--link);
+  --color-link-soft: var(--link-soft);
+
+  /* Raw brand colors — for solid FILLS (charts, dots, bands). Not for text on dark. */
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-green: var(--brand-green);
+  --color-brand-lime: var(--brand-lime);
+  --color-brand-blue-glow: var(--brand-blue-glow);
+  --color-on-brand: var(--white);
+  --color-overlay: var(--overlay);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Font families come from app/fonts.ts (swap the heading font there, one line). */
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-display), var(--font-body), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-label), ui-monospace, SFMono-Regular, monospace;
+
+  /* Tight industrial radius scale: 4 / 6 / 8 / 10px. Cards + images = lg (8px), buttons = md (6px). */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+
+  --shadow-card: var(--elevation-card);
+
+  --animate-flow: flow 6s linear infinite;
+}
+
+/* ------------------------------------------------------------------
+ * Utilities
+ * ------------------------------------------------------------------ */
+
+/* Allowed gradient #1: Our Approach connecting line. */
+@utility bg-flow-x {
+  background-image: linear-gradient(90deg, var(--flow-start), var(--brand-green), var(--brand-lime));
+}
+@utility bg-flow-y {
+  background-image: linear-gradient(180deg, var(--flow-start), var(--brand-green), var(--brand-lime));
+}
+
+/* Allowed gradient #2: the single subtle radial glow behind the Hero. */
+@utility bg-hero-glow {
+  background-image: radial-gradient(ellipse 60% 55% at 72% 30%, var(--glow), transparent 70%);
+}
+
+/* Faint engineering grid (solid 1px lines, not a color gradient). */
+@utility bg-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility section-y {
+  padding-block: 5rem;
+  @media (width >= 48rem) {
+    padding-block: 7rem;
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -400;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    background-color: var(--bg);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  ::selection {
+    background-color: var(--link-soft);
+    color: var(--text);
+  }
+  :focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 3px;
+  }
+}
+
+/* Lenis recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Hero entrance: items start hidden only when motion is allowed; GSAP reveals them. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-item] {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: kill CSS-driven motion everywhere. JS animations check the media query themselves. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
