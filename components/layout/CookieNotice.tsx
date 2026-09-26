@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Cookie } from "lucide-react";
-import { ROUTES } from "@/lib/constants";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ROUTES } from "@/content/navigation";
 import { readConsent, writeConsent, type ConsentState } from "@/lib/consent";
 import { cookieNotice } from "@/content/common";
+import { EASE_OUT } from "@/lib/motion";
 
 /** Minimal first-visit cookie bar. Analytics stays off unless the visitor accepts. */
 export default function CookieNotice() {
@@ -33,15 +33,14 @@ export default function CookieNotice() {
           initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.35, ease: EASE_OUT }}
           className="fixed inset-x-3 bottom-20 z-50 sm:inset-x-auto sm:left-6 sm:max-w-md lg:bottom-6"
         >
-          <div className="flex flex-col gap-4 rounded-lg border border-border bg-popover p-4 shadow-card sm:flex-row sm:items-center">
-            <p className="flex items-start gap-3 text-sm text-muted-foreground">
-              <Cookie className="mt-0.5 size-4 shrink-0 text-link" aria-hidden="true" />
+          <div className="flex flex-col gap-4 rounded-lg border border-border bg-popover p-4 shadow-subtle sm:flex-row sm:items-center">
+            <p className="text-sm text-muted-foreground">
               <span>
                 {cookieNotice.text}{" "}
-                <Link href={ROUTES.privacy} className="text-foreground underline underline-offset-4 hover:text-link">
+                <Link href={ROUTES.privacy} className="hv-text-link text-foreground">
                   {cookieNotice.policyLabel}
                 </Link>
               </span>
@@ -50,7 +49,7 @@ export default function CookieNotice() {
               <button
                 type="button"
                 onClick={() => choose("declined")}
-                className="h-9 flex-1 rounded-md border border-border-strong px-4 text-sm transition-colors hover:bg-elevated"
+                className="h-9 flex-1 rounded-md border border-border-strong px-4 text-sm transition-colors hover:border-foreground"
               >
                 {cookieNotice.decline}
               </button>

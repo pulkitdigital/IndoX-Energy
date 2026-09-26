@@ -3,24 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronDown, Menu, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CONTACT, MAIN_NAV, ROUTES } from "@/lib/constants";
-import { trackEvent } from "@/lib/analytics";
+import { EASE_OUT, MENU } from "@/lib/motion";
+import { company } from "@/content/company";
+import { ROUTES, mainNav, quoteCta, type MegaKey } from "@/content/navigation";
 import Logo from "@/components/layout/Logo";
 import MegaMenu from "@/components/layout/MegaMenu";
 import MobileNav from "@/components/layout/MobileNav";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import ContactLink from "@/components/ui/ContactLink";
 import CtaLink from "@/components/ui/CtaLink";
 
-type MenuKey = "products" | "services";
-
+/** Sticky header: transparent at the top, shrinks and turns solid (with the one allowed blur) after scroll. */
 export default function Header() {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const [scrolled, setScrolled] = useState(false);
-  const [openMenu, setOpenMenu] = useState<MenuKey | null>(null);
+  const [openMenu, setOpenMenu] = useState<MegaKey | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const headerRef = useRef<HTMLElement>(null);
@@ -39,11 +40,11 @@ export default function Header() {
 
   const scheduleClose = useCallback(() => {
     cancelClose();
-    closeTimer.current = window.setTimeout(() => setOpenMenu(null), 140);
+    closeTimer.current = window.setTimeout(() => setOpenMenu(null), MENU.closeDelayMs);
   }, [cancelClose]);
 
   const open = useCallback(
-    (menu: MenuKey) => {
+    (menu: MegaKey) => {
       cancelClose();
       setOpenMenu(menu);
     },
@@ -69,23 +70,33 @@ export default function Header() {
 
   const isActive = (href: string) => (href === ROUTES.home ? pathname === href : pathname.startsWith(href.replace(/\/$/, "")));
   const solid = scrolled || openMenu !== null;
+  const navItemClass = "hv-link inline-flex items-center gap-1 py-1.5 text-[0.875rem] font-medium whitespace-nowrap transition-colors duration-200";
+  const navTextClass = (active: boolean) =>
+    solid
+      ? active
+        ? "text-foreground hover:text-foreground focus-visible:text-foreground"
+        : "text-muted-foreground hover:text-foreground focus-visible:text-foreground"
+      : active
+        ? "text-white hover:text-white focus-visible:text-white"
+        : "text-white/75 hover:text-white focus-visible:text-white";
+  const iconBorderClass = solid ? "border-border text-foreground" : "border-white/30 text-white";
 
   return (
     <>
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50" onMouseLeave={scheduleClose}>
         <div
           className={cn(
-            "border-b transition-[background-color,border-color,backdrop-filter] duration-500",
-            // The one place blur is allowed (CLAUDE.md theme rules): sticky header after scroll.
-            solid ? "border-border bg-overlay backdrop-blur-xl backdrop-saturate-150" : "border-transparent bg-transparent",
+            "border-b transition-[background-color,border-color] duration-500",
+            // The one place blur is allowed: the sticky header after scroll.
+            solid ? "border-border bg-overlay backdrop-blur-lg" : "border-transparent bg-transparent",
           )}
         >
-          <div className="container-x flex h-16 items-center justify-between gap-4 lg:h-18">
+          <div className={cn("container-x flex items-center justify-between gap-4 transition-[height] duration-500", solid ? "h-16" : "h-18 lg:h-20")}>
             <Logo />
 
             <nav aria-label="Main" className="hidden xl:block">
-              <ul className="flex items-center gap-0.5 2xl:gap-1">
-                {MAIN_NAV.map((item) =>
+              <ul className="flex items-center gap-4 2xl:gap-7">
+                {mainNav.map((item) =>
                   item.kind === "mega" ? (
                     <li key={item.label} onMouseEnter={() => open(item.menu)}>
                       <button
@@ -93,14 +104,12 @@ export default function Header() {
                         aria-expanded={openMenu === item.menu}
                         aria-controls={`mega-${item.menu}`}
                         onClick={() => (openMenu === item.menu ? setOpenMenu(null) : open(item.menu))}
-                        className={cn(
-                          "inline-flex items-center gap-1 rounded-md px-2.5 py-2 text-sm whitespace-nowrap transition-colors hover:text-foreground",
-                          openMenu === item.menu || isActive(item.href) ? "text-foreground" : "text-muted-foreground",
-                        )}
+                        className={cn(navItemClass, navTextClass(openMenu === item.menu || isActive(item.href)))}
                       >
                         {item.label}
                         <ChevronDown
                           className={cn("size-3.5 transition-transform duration-300", openMenu === item.menu && "rotate-180")}
+                          strokeWidth={1.5}
                           aria-hidden="true"
                         />
                       </button>
@@ -110,10 +119,7 @@ export default function Header() {
                       <Link
                         href={item.href}
                         aria-current={isActive(item.href) ? "page" : undefined}
-                        className={cn(
-                          "rounded-md px-2.5 py-2 text-sm whitespace-nowrap transition-colors hover:text-foreground",
-                          isActive(item.href) ? "text-foreground" : "text-muted-foreground",
-                        )}
+                        className={cn(navItemClass, navTextClass(isActive(item.href)))}
                       >
                         {item.label}
                       </Link>
@@ -123,32 +129,34 @@ export default function Header() {
               </ul>
             </nav>
 
-            <div className="flex items-center gap-2">
-              <a
-                href={CONTACT.tollFreeHref}
-                onClick={() => trackEvent("call_click", { location: "header" })}
-                aria-label={`Call toll-free ${CONTACT.tollFree}`}
-                className="group hidden items-center gap-2 rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground md:inline-flex"
+            <div className="flex items-center gap-2 2xl:gap-3">
+              <ContactLink
+                kind="call"
+                location="header"
+                aria-label={`Call toll-free ${company.tollFree}`}
+                className="hv-group hidden items-center gap-2.5 rounded-md px-2 py-1.5 md:inline-flex"
               >
-                <span className="grid size-8 place-items-center rounded-md bg-accent-soft text-accent">
-                  <Phone className="size-3.5" aria-hidden="true" />
+                <Phone className="hv-icon-rot size-4 text-accent" strokeWidth={1.5} aria-hidden="true" />
+                <span className="leading-tight whitespace-nowrap">
+                  <span className={cn("label-caps block transition-colors duration-500", solid ? "text-muted-foreground" : "text-white/70")}>
+                    Toll-free
+                  </span>
+                  <span className={cn("hv-accent font-heading text-sm font-bold transition-colors duration-500", solid ? "text-foreground" : "text-white")}>
+                    {company.tollFree}
+                  </span>
                 </span>
-                <span className="leading-tight whitespace-nowrap xl:hidden 2xl:block">
-                  <span className="block text-[10px] tracking-wider uppercase">Toll-free</span>
-                  <span className="font-medium text-foreground">{CONTACT.tollFree}</span>
-                </span>
-              </a>
-              <a
-                href={CONTACT.tollFreeHref}
-                onClick={() => trackEvent("call_click", { location: "header_mobile" })}
-                aria-label={`Call toll-free ${CONTACT.tollFree}`}
-                className="grid size-10 place-items-center rounded-md border border-border bg-surface text-accent md:hidden"
+              </ContactLink>
+              <ContactLink
+                kind="call"
+                location="header_mobile"
+                aria-label={`Call toll-free ${company.tollFree}`}
+                className={cn("grid size-10 place-items-center rounded-md border transition-colors duration-500 md:hidden", iconBorderClass)}
               >
-                <Phone className="size-4" aria-hidden="true" />
-              </a>
+                <Phone className="size-4" strokeWidth={1.5} aria-hidden="true" />
+              </ContactLink>
               <ThemeToggle className="hidden xl:grid" />
-              <CtaLink href={ROUTES.contact} size="sm" magnetic track="quote_cta_click" className="hidden sm:inline-flex">
-                Get a Quote
+              <CtaLink href={quoteCta.href} size="md" magnetic arrow className="hidden sm:inline-flex">
+                {quoteCta.label}
               </CtaLink>
               <button
                 type="button"
@@ -156,9 +164,9 @@ export default function Header() {
                 aria-label="Open menu"
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-nav"
-                className="grid size-10 place-items-center rounded-md border border-border bg-surface xl:hidden"
+                className={cn("grid size-10 place-items-center rounded-md border transition-colors duration-500 xl:hidden", iconBorderClass)}
               >
-                <Menu className="size-5" aria-hidden="true" />
+                <Menu className="size-5" strokeWidth={1.5} aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -168,14 +176,14 @@ export default function Header() {
           {openMenu ? (
             <motion.div
               key={openMenu}
-              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: MENU.fromScale }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: MENU.fromScale }}
+              transition={{ duration: MENU.duration, ease: EASE_OUT }}
               onMouseEnter={cancelClose}
-              className="absolute inset-x-0 top-full hidden pt-2 xl:block"
+              className="absolute inset-x-0 top-full hidden origin-top pt-2 xl:block"
             >
-              <div className={cn("container-x", openMenu === "services" && "max-w-4xl")}>
+              <div className={cn("container-x", openMenu === "services" && "max-w-5xl")}>
                 <MegaMenu menu={openMenu} id={`mega-${openMenu}`} onNavigate={() => setOpenMenu(null)} />
               </div>
             </motion.div>

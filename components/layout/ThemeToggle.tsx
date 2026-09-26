@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { AnimatePresence, motion } from "motion/react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,13 +35,15 @@ export default function ThemeToggle({ className, variant = "icon" }: ThemeToggle
         disabled={!mounted}
         aria-label={nextLabel}
         className={cn(
-          "flex w-full items-center justify-between rounded-lg border border-border bg-surface px-4 py-3.5 text-sm transition-colors hover:border-border-strong",
+          "hv-toggle flex w-full items-center justify-between rounded-md border border-border px-4 py-3.5 text-sm",
           className,
         )}
       >
         <span>{mounted ? (isDark ? "Dark theme" : "Light theme") : "Theme"}</span>
         <span className="flex items-center gap-2 text-muted-foreground">
-          {mounted ? <IconComponent className="size-4" aria-hidden="true" /> : <span className="size-4" />}
+          <span className="hv-toggle-icon grid size-4 place-items-center" aria-hidden="true">
+            {mounted ? <IconComponent className="size-4" strokeWidth={1.5} /> : null}
+          </span>
           {mounted ? (isDark ? "Switch to light" : "Switch to dark") : null}
         </span>
       </button>
@@ -55,11 +58,20 @@ export default function ThemeToggle({ className, variant = "icon" }: ThemeToggle
       aria-label={nextLabel}
       title={mounted ? nextLabel : undefined}
       className={cn(
-        "grid size-10 place-items-center rounded-md border border-border bg-surface text-foreground transition-colors hover:border-border-strong hover:bg-surface-hover",
+        "hv-toggle hv-chip grid size-10 place-items-center rounded-md border border-border text-foreground",
         className,
       )}
     >
-      {mounted ? <IconComponent className="size-4" aria-hidden="true" /> : <span className="size-4" aria-hidden="true" />}
+      {/* hv-toggle: icon rotates 30deg on hover; the swap itself is a quick cross-fade. */}
+      <span className="hv-toggle-icon grid size-4 place-items-center" aria-hidden="true">
+        <AnimatePresence mode="wait" initial={false}>
+          {mounted ? (
+            <motion.span key={isDark ? "sun" : "moon"} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.12 }}>
+              <IconComponent className="size-4" strokeWidth={1.5} />
+            </motion.span>
+          ) : null}
+        </AnimatePresence>
+      </span>
     </button>
   );
 }

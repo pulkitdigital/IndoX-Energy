@@ -25,7 +25,7 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const instance = new Lenis({ duration: 1.1, anchors: true, autoRaf: false });
+    const instance = new Lenis({ lerp: 0.1, anchors: true, autoRaf: false });
     const onTick = (time: number) => instance.raf(time * 1000);
 
     instance.on("scroll", ScrollTrigger.update);

@@ -1,21 +1,17 @@
-"use client";
-
 import { MessageCircle } from "lucide-react";
-import { hasWhatsApp, whatsappHref } from "@/lib/constants";
-import { trackEvent } from "@/lib/analytics";
+import ContactLink from "@/components/ui/ContactLink";
 
-/** Floating WhatsApp button, desktop only (mobile uses MobileActionBar). Pre-filled quote message. */
+/** Floating WhatsApp button, desktop only (mobile uses MobileActionBar). Pre-filled quote message (PRD §7). Hover: scale 1.06 + one ring pulse. */
 export default function WhatsAppFloat() {
   return (
-    <a
-      href={whatsappHref()}
-      onClick={() => trackEvent("whatsapp_click", { location: "float" })}
-      {...(hasWhatsApp ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    <ContactLink
+      kind="whatsapp"
+      location="float"
       aria-label="Chat with IndoX Energy on WhatsApp"
       title="Chat on WhatsApp"
-      className="fixed right-6 bottom-6 z-40 hidden size-14 place-items-center rounded-lg bg-accent text-accent-foreground shadow-card transition-transform duration-300 hover:-translate-y-0.5 lg:grid"
+      className="hv-float fixed right-6 bottom-6 z-40 hidden size-13 place-items-center rounded-md border border-border bg-surface text-foreground shadow-subtle lg:grid"
     >
-      <MessageCircle className="size-6" aria-hidden="true" />
-    </a>
+      <MessageCircle className="size-5.5 text-accent" strokeWidth={1.5} aria-hidden="true" />
+    </ContactLink>
   );
 }

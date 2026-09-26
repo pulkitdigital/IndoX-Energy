@@ -2,93 +2,122 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* Theme is class-based (next-themes). Components should use semantic tokens, not `dark:`. */
+/* Theme is class-based (next-themes). Components use semantic tokens, never `dark:` colour overrides. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ------------------------------------------------------------------
- * Brand colors (final logo) — the ONLY place brand hex values live.
- * See CLAUDE.md → "Theme & color rules".
+ * Brand + base theme (TRD §5). The ONLY place brand hex values live.
  * ------------------------------------------------------------------ */
-:root {
-  --brand-blue: #0e4c9e;
-  --brand-green: #398d41;
-  --brand-lime: #4ba826;
-  --brand-blue-glow: #3d86e0;
-  --white: #ffffff;
-  --ink: #050505;
+@theme {
+  /* Brand — from the final logo */
+  --color-brand-blue: #0e4c9e;
+  --color-brand-green: #398d41;
+  --color-brand-lime: #4ba826;
+  /* Derived tint, not a brand colour: blue text / links / icons / thin strokes on dark */
+  --color-brand-blue-glow: #3d86e0;
+  /* Derived deep navy (brand-blue darkened): light-mode ink AND the dark-mode base. Replaces every black/near-black. */
+  --color-brand-navy: color-mix(in oklab, var(--color-brand-blue) 46%, black);
+  --color-on-brand: #ffffff;
+
+  /* Fonts: fallback stacks only. lib/fonts.ts sets Archivo (heading) + Inter (body) on <html>. No other fonts. */
+  --font-heading: ui-sans-serif, sans-serif;
+  --font-body: ui-sans-serif, sans-serif;
+  --font-sans: var(--font-body);
+
+  /* Tight industrial radius scale — 4 / 6 / 8px everywhere. Overrides shadcn's rounded-lg/xl defaults. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
+  --radius-2xl: 8px;
 }
 
 /* ------------------------------------------------------------------
- * Semantic tokens — LIGHT (default :root)
+ * Semantic tokens — LIGHT (:root). White + faint brand-blue / brand-green tints, deep-navy ink.
+ * Every value is derived from the brand tokens with color-mix — no neutral grey, no black.
  * ------------------------------------------------------------------ */
 :root {
-  --bg: #ffffff;
-  --bg-elevated: #f5f7fa;
+  --bg: color-mix(in oklab, var(--color-brand-blue) 2%, white);
+  --bg-elevated: color-mix(in oklab, var(--color-brand-blue) 6%, white);
+  --bg-tint-green: color-mix(in oklab, var(--color-brand-green) 7%, white);
   --surface: #ffffff;
-  --surface-hover: #f8fafc;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text: #0b1220;
-  --text-muted: #5b6472;
+  --surface-hover: color-mix(in oklab, var(--color-brand-blue) 3%, white);
+  --border: color-mix(in oklab, var(--color-brand-blue) 14%, white);
+  --border-strong: color-mix(in oklab, var(--color-brand-blue) 28%, white);
+  /* Ink ~17:1 on white; muted ink is blue-tinted, ~6:1 on the elevated tint */
+  --text: var(--color-brand-navy);
+  --text-muted: color-mix(in oklab, var(--color-brand-blue) 50%, color-mix(in oklab, var(--color-brand-navy) 60%, white));
+  /* h1–h4 */
+  --heading: var(--color-brand-blue);
 
-  --primary: var(--brand-blue);
-  --primary-hover: #0b3f84;
-  --primary-foreground: var(--white);
-  --accent: var(--brand-green);
-  --accent-foreground: var(--white);
-  --accent-soft: rgb(57 141 65 / 0.1);
-  --link: var(--brand-blue);
-  --link-soft: rgb(14 76 158 / 0.08);
+  /* Buttons: always brand-blue fill + white text */
+  --primary: var(--color-brand-blue);
+  --primary-hover: color-mix(in oklab, var(--color-brand-blue) 80%, var(--color-brand-navy));
+  --primary-foreground: var(--color-on-brand);
+  /* Green on white is ~4:1 → icons, large text and fills only in light mode */
+  --accent: var(--color-brand-green);
+  --accent-foreground: var(--color-on-brand);
+  --link: var(--color-brand-blue);
 
-  /* Our Approach line start — brand-blue reads fine on white */
-  --flow-start: var(--brand-blue);
-  /* Hero radial glow (allowed gradient #2) — soft tint in light */
-  --glow: rgb(14 76 158 / 0.07);
-  --grid-line: rgb(11 18 32 / 0.05);
-  --overlay: rgb(255 255 255 / 0.82);
-  --elevation-card: 0 12px 32px -16px rgb(11 18 32 / 0.18);
-  --danger: #c2261d;
-  /* Footer truck overall opacity (decorative; footer text stays full contrast) */
-  --truck-opacity: 0.13;
+  /* Our Approach line start (allowed gradient #1) */
+  --flow-start: var(--color-brand-blue);
+  /* Hero radial glow (allowed gradient #2) — barely-there tint in light */
+  --glow: color-mix(in oklab, var(--color-brand-blue) 5%, transparent);
+  --overlay: color-mix(in oklab, var(--bg) 84%, transparent);
+  --shadow-subtle:
+    0 1px 2px color-mix(in oklab, var(--color-brand-navy) 5%, transparent),
+    0 8px 24px -16px color-mix(in oklab, var(--color-brand-navy) 16%, transparent);
+  --danger: #b42318;
+  /* Footer truck overall opacity (decorative; footer text keeps full contrast) */
+  --truck-opacity: 0.12;
+  /* Hero grid: 1px brand-blue lines at ~8%; every 4th line gets an extra overlay (~14% combined) */
+  --grid-line: color-mix(in oklab, var(--color-brand-blue) 8%, transparent);
+  --grid-line-major: color-mix(in oklab, var(--color-brand-blue) 7%, transparent);
 
   color-scheme: light;
 }
 
 /* ------------------------------------------------------------------
- * Semantic tokens — DARK
+ * Semantic tokens — DARK. Deep navy base (derived from brand-blue), blue-tinted borders, white text.
  * ------------------------------------------------------------------ */
 .dark {
-  --bg: #050505;
-  --bg-elevated: #0d0d0d;
-  --surface: #111111;
-  --surface-hover: #161616;
-  --border: #1f1f1f;
-  --border-strong: #2e2e2e;
+  --bg: var(--color-brand-navy);
+  --bg-elevated: color-mix(in oklab, var(--color-brand-blue) 9%, var(--color-brand-navy));
+  --bg-tint-green: color-mix(in oklab, var(--color-brand-green) 9%, var(--color-brand-navy));
+  --surface: color-mix(in oklab, var(--color-brand-blue) 15%, var(--color-brand-navy));
+  --surface-hover: color-mix(in oklab, var(--color-brand-blue) 22%, var(--color-brand-navy));
+  --border: color-mix(in oklab, var(--color-brand-blue-glow) 24%, var(--color-brand-navy));
+  --border-strong: color-mix(in oklab, var(--color-brand-blue-glow) 40%, var(--color-brand-navy));
   --text: #ffffff;
-  --text-muted: #a3a3a3;
+  --text-muted: color-mix(in oklab, var(--color-brand-blue-glow) 45%, white);
+  /* h1–h4: a light blue-glow tint (brand-blue itself is ~2.2:1 here) */
+  --heading: color-mix(in oklab, var(--color-brand-blue-glow) 22%, white);
 
-  --primary: var(--brand-blue);
-  --primary-hover: #1459b6;
-  --primary-foreground: var(--white);
-  --accent: var(--brand-lime);
-  --accent-foreground: var(--ink);
-  --accent-soft: rgb(75 168 38 / 0.14);
-  /* brand-blue is ~2.5:1 on this bg → links/text/strokes use the glow tint */
-  --link: var(--brand-blue-glow);
-  --link-soft: rgb(61 134 224 / 0.14);
+  --primary: var(--color-brand-blue);
+  --primary-hover: color-mix(in oklab, var(--color-brand-blue), white 10%);
+  --primary-foreground: var(--color-on-brand);
+  --accent: var(--color-brand-lime);
+  --accent-foreground: var(--color-brand-navy);
+  /* brand-blue fails as text on navy → blue text/links/strokes use the glow tint (~4.6:1 on surface) */
+  --link: var(--color-brand-blue-glow);
 
-  --flow-start: var(--brand-blue-glow);
-  --glow: rgb(61 134 224 / 0.16);
-  --grid-line: rgb(255 255 255 / 0.045);
-  --overlay: rgb(5 5 5 / 0.75);
-  --elevation-card: 0 12px 32px -16px rgb(0 0 0 / 0.7);
+  --flow-start: var(--color-brand-blue-glow);
+  --glow: color-mix(in oklab, var(--color-brand-blue-glow) 11%, transparent);
+  --overlay: color-mix(in oklab, var(--bg) 78%, transparent);
+  --shadow-subtle:
+    0 1px 2px color-mix(in oklab, var(--color-brand-navy) 60%, transparent),
+    0 8px 24px -16px color-mix(in oklab, var(--color-brand-navy) 90%, transparent);
   --danger: #f2665c;
-  --truck-opacity: 0.18;
+  --truck-opacity: 0.16;
+  /* Hero grid on navy: blue-glow (brand-blue is fill-only on dark) at ~12%; every 4th line ~20% combined */
+  --grid-line: color-mix(in oklab, var(--color-brand-blue-glow) 12%, transparent);
+  --grid-line-major: color-mix(in oklab, var(--color-brand-blue-glow) 9%, transparent);
 
   color-scheme: dark;
 }
 
-/* shadcn/ui variable names, mapped onto the semantic tokens */
+/* shadcn/ui variable names, mapped onto the semantic tokens (replaces the stock zinc palette) */
 :root,
 .dark {
   --background: var(--bg);
@@ -104,18 +133,15 @@
   --destructive: var(--danger);
   --input: var(--border-strong);
   --ring: var(--link);
-  --chart-1: var(--brand-blue);
-  --chart-2: var(--brand-blue-glow);
-  --chart-3: var(--brand-green);
-  --chart-4: var(--brand-lime);
-  --chart-5: var(--text-muted);
-  --radius: 0.5rem;
+  --radius: 0.375rem;
 }
 
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --color-elevated: var(--bg-elevated);
+  --color-tint-green: var(--bg-tint-green);
+  --color-heading: var(--heading);
   --color-surface: var(--surface);
   --color-surface-hover: var(--surface-hover);
   --color-card: var(--surface);
@@ -137,86 +163,103 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-accent-soft: var(--accent-soft);
   --color-link: var(--link);
-  --color-link-soft: var(--link-soft);
-
-  /* Raw brand colors — for solid FILLS (charts, dots, bands). Not for text on dark. */
-  --color-brand-blue: var(--brand-blue);
-  --color-brand-green: var(--brand-green);
-  --color-brand-lime: var(--brand-lime);
-  --color-brand-blue-glow: var(--brand-blue-glow);
-  --color-on-brand: var(--white);
   --color-overlay: var(--overlay);
 
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  /* Font families come from app/fonts.ts (swap the heading font there, one line). */
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-display), var(--font-body), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-label), ui-monospace, SFMono-Regular, monospace;
-
-  /* Tight industrial radius scale: 4 / 6 / 8 / 10px. Cards + images = lg (8px), buttons = md (6px). */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 10px;
-
-  --shadow-card: var(--elevation-card);
-
-  --animate-flow: flow 6s linear infinite;
+  --shadow-subtle: var(--shadow-subtle);
 }
 
 /* ------------------------------------------------------------------
  * Utilities
  * ------------------------------------------------------------------ */
 
-/* Allowed gradient #1: Our Approach connecting line. */
+/* Allowed gradient #1: Our Approach connecting line (blue → green → lime). */
 @utility bg-flow-x {
-  background-image: linear-gradient(90deg, var(--flow-start), var(--brand-green), var(--brand-lime));
+  background-image: linear-gradient(90deg, var(--flow-start), var(--color-brand-green), var(--color-brand-lime));
 }
 @utility bg-flow-y {
-  background-image: linear-gradient(180deg, var(--flow-start), var(--brand-green), var(--brand-lime));
+  background-image: linear-gradient(180deg, var(--flow-start), var(--color-brand-green), var(--color-brand-lime));
 }
 
-/* Allowed gradient #2: the single subtle radial glow behind the Hero. */
+/* Hero grid: solid 1px lines drawn with hard-stop repeating gradients (no colour blending), one layer per
+ * direction plus a stronger every-4th layer so each can draw in separately. The wrapper's mask (alpha only —
+ * the opaque brand colour just means "visible") fades the grid out at the sides and bottom. */
+/* --hero-cell / --hero-major are set inline by Hero.tsx from lib/motion.ts → HERO.gridCell / gridMajorEvery. */
+@utility hero-grid {
+  mask-image:
+    linear-gradient(to right, transparent, var(--color-brand-blue) 12%, var(--color-brand-blue) 88%, transparent),
+    linear-gradient(to bottom, var(--color-brand-blue) 55%, transparent);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, var(--color-brand-blue) 12%, var(--color-brand-blue) 88%, transparent),
+    linear-gradient(to bottom, var(--color-brand-blue) 55%, transparent);
+  -webkit-mask-composite: source-in;
+}
+@utility hero-grid-v {
+  background-image: repeating-linear-gradient(to right, var(--grid-line) 0 1px, transparent 1px var(--hero-cell));
+  transform-origin: 50% 0;
+}
+@utility hero-grid-h {
+  background-image: repeating-linear-gradient(to bottom, var(--grid-line) 0 1px, transparent 1px var(--hero-cell));
+  transform-origin: 0 50%;
+}
+@utility hero-grid-v-major {
+  background-image: repeating-linear-gradient(to right, var(--grid-line-major) 0 1px, transparent 1px var(--hero-major));
+}
+@utility hero-grid-h-major {
+  background-image: repeating-linear-gradient(to bottom, var(--grid-line-major) 0 1px, transparent 1px var(--hero-major));
+}
+
+/* Allowed gradient #2: the single faint radial glow behind the Hero. */
 @utility bg-hero-glow {
-  background-image: radial-gradient(ellipse 60% 55% at 72% 30%, var(--glow), transparent 70%);
-}
-
-/* Faint engineering grid (solid 1px lines, not a color gradient). */
-@utility bg-grid {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
+  background-image: radial-gradient(ellipse 55% 50% at 78% 38%, var(--glow), transparent 70%);
 }
 
 @utility container-x {
   width: 100%;
-  max-width: 80rem;
+  max-width: 82rem;
   margin-inline: auto;
-  padding-inline: 1.25rem;
-  @media (width >= 48rem) {
-    padding-inline: 2rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
   }
 }
 
 @utility section-y {
-  padding-block: 5rem;
+  padding-block: 4rem;
   @media (width >= 48rem) {
-    padding-block: 7rem;
+    padding-block: 6rem;
   }
 }
 
-@keyframes flow {
-  to {
-    stroke-dashoffset: -400;
-  }
+/* Hero h1 — Archivo 800. Each line is ~8.8em wide and set nowrap from 640px, so the size tracks the viewport
+ * (360px → 32px, 1280px → 56px, max 64px) and always fits the widened hero text column. */
+@utility text-display {
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+/* Section h2 — one scale for every section heading. */
+@utility text-section {
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+/* Eyebrows, step numbers, spec labels, captions: Archivo 600, uppercase, 11px, tracked. */
+@utility label-caps {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
 }
 
 @layer base {
@@ -230,23 +273,377 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    font-size: 1rem;
+    line-height: 1.65;
     text-rendering: optimizeLegibility;
+  }
+  @media (width >= 48rem) {
+    body {
+      font-size: 1.0625rem;
+    }
   }
   h1,
   h2,
   h3,
+  h4,
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+  /* Sentence case everywhere — no all-caps headings. */
+  h1,
+  h2,
+  h3,
   h4 {
-    @apply font-heading;
+    color: var(--heading);
+    font-weight: 700;
     letter-spacing: -0.02em;
-    line-height: 1.05;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  h3,
+  h4 {
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
   }
   ::selection {
-    background-color: var(--link-soft);
+    background-color: color-mix(in oklab, var(--link) 22%, transparent);
     color: var(--text);
   }
   :focus-visible {
     outline: 2px solid var(--link);
     outline-offset: 3px;
+  }
+}
+
+/* ==================================================================
+ * Hover system — one shared set of patterns for the whole site.
+ * Values (duration, easing, distances) come from lib/motion.ts → HOVER_CSS, written onto <html> as --hv-* vars.
+ *  - Hover effects only apply on (hover: hover) and (pointer: fine), so touch never gets stuck states.
+ *  - Every hover has the same :focus-visible state for keyboard users (container focused, or a child focused).
+ *  - Only transform / opacity move; border-color / background-color / color change where needed. No gradients.
+ *  - prefers-reduced-motion: colour + underline changes stay, all movement / zoom is removed (end of block).
+ *
+ * Containers (put on the hovered element):
+ *   hv-card      lift 4px + border → accent            (cards: blog, EV, ecosystem nodes)
+ *   hv-surface   border → accent, no lift              (product bento: motion owns lift + tilt)
+ *   hv-row       background → surface-hover            (service rows)
+ *   hv-menu      background → elevated                 (mega menu items)
+ *   hv-btn       primary: darken + lift 1px
+ *   hv-btn-line  outline: border → accent + solid fill wipes in from the left
+ *   hv-chip      border → accent + lift 1px            (tech chips, segments, tags)
+ *   hv-group     no effect on itself; only drives its targets
+ * Targets (inside any container):
+ *   hv-img  zoom 1.05 · hv-arrow  nudge 4px right · hv-arrow-in  slides in · hv-icon  nudge 2px · hv-icon-rot  rotate 6deg
+ *   hv-fade-in  fades in · hv-accent  text → accent · hv-bar  slides up from the bottom edge
+ * Standalone:
+ *   hv-link       2px accent underline slides in from the left, out to the right (nav, footer)
+ *   hv-text-link  underline thickens + colour → --link (links inside copy)
+ *   hv-dim-siblings (on a list)  hovering one child dims the others
+ * ================================================================== */
+@layer components {
+  .hv-card,
+  .hv-surface,
+  .hv-row,
+  .hv-menu,
+  .hv-btn,
+  .hv-btn-line,
+  .hv-chip,
+  .hv-img,
+  .hv-arrow,
+  .hv-arrow-in,
+  .hv-icon,
+  .hv-icon-rot,
+  .hv-fade-in,
+  .hv-accent,
+  .hv-bar,
+  .hv-text-link {
+    transition-property: transform, opacity, color, background-color, border-color, text-decoration-color, text-decoration-thickness;
+    transition-duration: var(--hv-dur, 200ms);
+    transition-timing-function: var(--hv-ease, ease-out);
+  }
+
+  .hv-arrow-in {
+    opacity: 0;
+    transform: translateX(calc(var(--hv-arrow, 4px) * -2));
+  }
+  .hv-fade-in {
+    opacity: 0;
+  }
+  .hv-bar {
+    transform: translateY(101%);
+  }
+
+  .hv-link {
+    position: relative;
+  }
+  .hv-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+  }
+
+  .hv-btn-line {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .hv-btn-line::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    /* Solid tint (a colour mix, not a gradient). */
+    background-color: var(--hv-wipe, color-mix(in oklab, var(--accent) 14%, var(--bg)));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+  }
+
+  .hv-text-link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .hv-dim-siblings > * {
+    transition: opacity var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+  }
+  .hv-toggle-icon {
+    transition: transform var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+  }
+  .hv-float {
+    transition:
+      transform var(--hv-dur, 200ms) var(--hv-ease, ease-out),
+      border-color var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+  }
+  .hv-float::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 1px solid var(--accent);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* ---- Active state: HOVER (fine pointers only) ---- */
+@media (hover: hover) and (pointer: fine) {
+  .hv-card:hover {
+    transform: translateY(var(--hv-lift));
+    border-color: var(--accent);
+  }
+  .hv-surface:hover,
+  .hv-btn-line:hover {
+    border-color: var(--accent);
+  }
+  .hv-row:hover {
+    background-color: var(--surface-hover);
+  }
+  .hv-menu:hover {
+    background-color: var(--bg-elevated);
+  }
+  .hv-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(var(--hv-lift-sm));
+  }
+  .hv-btn-line:hover::before,
+  .hv-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+  .hv-chip:hover {
+    border-color: var(--accent);
+    transform: translateY(var(--hv-lift-sm));
+  }
+  .hv-text-link:hover {
+    color: var(--link);
+    text-decoration-thickness: 2px;
+  }
+
+  :is(.hv-card, .hv-surface, .hv-group):hover .hv-img {
+    transform: scale(var(--hv-zoom));
+  }
+  :is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-btn, .hv-btn-line, .hv-group, .hv-link):hover .hv-arrow {
+    transform: translateX(var(--hv-arrow));
+  }
+  :is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-group):hover .hv-arrow-in {
+    opacity: 1;
+    transform: none;
+  }
+  :is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-chip, .hv-group):hover .hv-icon {
+    transform: translateX(var(--hv-nudge));
+  }
+  :is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-chip, .hv-group):hover .hv-icon-rot {
+    transform: rotate(var(--hv-rotate));
+  }
+  :is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-group):hover .hv-fade-in {
+    opacity: 1;
+  }
+  :is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-chip, .hv-group):hover .hv-accent {
+    color: var(--accent);
+  }
+  :is(.hv-card, .hv-surface, .hv-group):hover .hv-bar {
+    transform: none;
+    opacity: 1;
+  }
+
+  .hv-dim-siblings:has(> :hover) > :not(:hover) {
+    opacity: var(--hv-dim);
+  }
+  .hv-toggle:hover .hv-toggle-icon {
+    transform: rotate(var(--hv-toggle-rotate));
+  }
+  .hv-float:hover {
+    transform: scale(var(--hv-float-scale));
+    border-color: var(--accent);
+  }
+  .hv-float:hover::after {
+    animation: hv-ring 700ms var(--hv-ease, ease-out) 1;
+  }
+}
+
+/* ---- Active state: KEYBOARD FOCUS (same look as hover) ---- */
+.hv-card:is(:focus-visible, :has(:focus-visible)) {
+  transform: translateY(var(--hv-lift));
+  border-color: var(--accent);
+}
+.hv-surface:is(:focus-visible, :has(:focus-visible)),
+.hv-btn-line:focus-visible {
+  border-color: var(--accent);
+}
+.hv-row:is(:focus-visible, :has(:focus-visible)) {
+  background-color: var(--surface-hover);
+}
+.hv-menu:is(:focus-visible, :has(:focus-visible)) {
+  background-color: var(--bg-elevated);
+}
+.hv-btn:focus-visible {
+  background-color: var(--primary-hover);
+  transform: translateY(var(--hv-lift-sm));
+}
+.hv-btn-line:focus-visible::before,
+.hv-link:focus-visible::after,
+.hv-link[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.hv-chip:is(:focus-visible, :has(:focus-visible)) {
+  border-color: var(--accent);
+  transform: translateY(var(--hv-lift-sm));
+}
+.hv-text-link:focus-visible {
+  color: var(--link);
+  text-decoration-thickness: 2px;
+}
+:is(.hv-card, .hv-surface, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-img {
+  transform: scale(var(--hv-zoom));
+}
+:is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-btn, .hv-btn-line, .hv-group, .hv-link):is(:focus-visible, :has(:focus-visible)) .hv-arrow {
+  transform: translateX(var(--hv-arrow));
+}
+:is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-arrow-in {
+  opacity: 1;
+  transform: none;
+}
+:is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-chip, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-icon {
+  transform: translateX(var(--hv-nudge));
+}
+:is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-chip, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-icon-rot {
+  transform: rotate(var(--hv-rotate));
+}
+:is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-fade-in {
+  opacity: 1;
+}
+:is(.hv-card, .hv-surface, .hv-row, .hv-menu, .hv-chip, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-accent {
+  color: var(--accent);
+}
+:is(.hv-card, .hv-surface, .hv-group):is(:focus-visible, :has(:focus-visible)) .hv-bar {
+  transform: none;
+  opacity: 1;
+}
+.hv-dim-siblings:has(> :focus-visible, > * :focus-visible) > :not(:focus-visible, :has(:focus-visible)) {
+  opacity: var(--hv-dim);
+}
+.hv-toggle:focus-visible .hv-toggle-icon {
+  transform: rotate(var(--hv-toggle-rotate));
+}
+.hv-float:focus-visible {
+  transform: scale(var(--hv-float-scale));
+  border-color: var(--accent);
+}
+
+/* Buttons on the solid brand-blue band: white-based hover colours instead of the theme tokens. */
+.hv-btn-line.on-brand {
+  --hv-wipe: color-mix(in oklab, var(--color-on-brand) 14%, var(--color-brand-blue));
+}
+@media (hover: hover) and (pointer: fine) {
+  .hv-btn.on-brand:hover {
+    background-color: color-mix(in oklab, var(--color-on-brand) 88%, var(--color-brand-blue));
+  }
+  .hv-btn-line.on-brand:hover {
+    border-color: var(--color-on-brand);
+  }
+}
+.hv-btn.on-brand:focus-visible {
+  background-color: color-mix(in oklab, var(--color-on-brand) 88%, var(--color-brand-blue));
+}
+.hv-btn-line.on-brand:focus-visible {
+  border-color: var(--color-on-brand);
+}
+
+@keyframes hv-ring {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+/* Hover-revealed content: shown statically on touch, hidden (revealed by hover) on fine pointers. */
+@media (hover: none), (pointer: coarse) {
+  .hv-fine-only {
+    display: none !important;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .hv-touch-only {
+    display: none !important;
+  }
+}
+
+/* Reduced motion: keep colour / underline / border changes, remove all movement, zoom, tilt and pulses. */
+@media (prefers-reduced-motion: reduce) {
+  .hv-card,
+  .hv-btn,
+  .hv-chip,
+  .hv-float,
+  .hv-img,
+  .hv-arrow,
+  .hv-arrow-in,
+  .hv-icon,
+  .hv-icon-rot,
+  .hv-toggle-icon,
+  .hv-bar {
+    transform: none !important;
+  }
+  .hv-float::after {
+    animation: none !important;
+  }
+  /* Hover-revealed bars appear in place (opacity) instead of sliding. */
+  .hv-bar {
+    opacity: 0;
   }
 }
 

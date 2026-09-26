@@ -67,17 +67,15 @@ export default function Marquee({ items, label, repeat = 3 }: MarqueeProps) {
     <div className="flex shrink-0 items-center">
       {sequence.map((item, i) => (
         <Fragment key={`${item}-${i}`}>
-          <span className="px-6 font-heading text-xl font-semibold tracking-tight whitespace-nowrap text-muted-foreground uppercase sm:px-8 sm:text-2xl">
-            {item}
-          </span>
-          <span className="size-1.5 shrink-0 rounded-full bg-accent" />
+          <span className="px-5 font-heading text-lg font-bold whitespace-nowrap sm:px-7 sm:text-xl">{item}</span>
+          <span className="text-lg text-accent sm:text-xl">·</span>
         </Fragment>
       ))}
     </div>
   );
 
   return (
-    <div ref={rootRef} role="region" aria-label={label} className="overflow-hidden border-y border-border py-5 sm:py-6">
+    <div ref={rootRef} role="region" aria-label={label} className="overflow-hidden border-y border-border py-4 sm:py-5">
       <p className="sr-only">{items.join(", ")}</p>
       <div ref={trackRef} aria-hidden="true" className="flex w-max will-change-transform">
         {half}

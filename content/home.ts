@@ -1,44 +1,33 @@
 import type { IconName } from "@/lib/icons";
 import type { ImageSlotKey } from "@/content/images";
-import { ROUTES } from "@/lib/constants";
+import { ROUTES, productHref, serviceHref } from "@/content/navigation";
 
-/** All Home page copy. Components render this; they don't own copy. */
+/**
+ * All Home page copy (PRD §8.1). Components render this; they don't own copy.
+ * Voice: concrete and plain. Short sentences about sites, DG sets, delivery, records, theft and downtime.
+ * Keep compliance qualifiers on every supply / delivery claim. No invented stats, clients or certifications.
+ */
 
 export type SectionIntro = {
   /** Section number shown in the eyebrow, e.g. "01". */
   index?: string;
   eyebrow: string;
   title: string;
-  /** Portion of the title rendered with the brand gradient (must appear in `title`). */
-  highlight?: string;
   description?: string;
-};
-
-export type IconPoint = {
-  icon: IconName;
-  title: string;
-  description: string;
 };
 
 /* 1 — Hero */
 export const hero = {
-  eyebrow: "Powering Sustainable Energy",
-  titleLead: "From Fuel Supply to",
-  titleHighlight: "Fuel Intelligence",
+  eyebrow: "Fuel supply · Storage · Monitoring",
+  /** Each entry is one masked line of the h1. */
+  titleLines: ["From fuel supply", "to fuel intelligence"],
   subline:
-    "IndoX Energy sources, delivers, stores and monitors diesel for businesses that can't afford downtime — with metered delivery, smart storage and real-time visibility in one partner.",
+    "We supply diesel to sites, plants and fleets. It comes from authorized sources, arrives metered, and goes into tanks you can check from your phone. Every litre is on record.",
   primaryCta: { label: "Get a Quote", href: ROUTES.contact },
   secondaryCta: { label: "Explore Services", href: ROUTES.services },
-  chain: ["Source", "Deliver", "Store", "Dispense", "Monitor", "Analyze"],
-  visual: {
-    // Image file: public/images/hero-bowser.webp (alt text lives in content/images.ts)
-    image: "hero-bowser" as ImageSlotKey,
-    tags: [
-      { icon: "gauge", label: "Metered delivery" },
-      { icon: "activity", label: "Live monitoring" },
-      { icon: "shieldCheck", label: "Authorized sourcing" },
-    ] as { icon: IconName; label: string }[],
-  },
+  image: "hero-bowser" as ImageSlotKey,
+  caption: "FIG. 01 — Fuel bowser, metered site delivery",
+  labels: ["Metered", "Documented", "GST invoiced"],
 };
 
 /* 3 — Our Approach */
@@ -53,104 +42,83 @@ export type ApproachStep = {
 
 export const approachIntro: SectionIntro = {
   index: "01",
-  eyebrow: "Our Approach",
-  title: "Six steps. One accountable partner.",
-  highlight: "One accountable partner.",
+  eyebrow: "Approach",
+  title: "Six steps. One record.",
   description:
-    "Every litre moves through a single, documented chain — from authorized source to the insight on your dashboard. Select a step to see what happens there.",
+    "Most sites buy fuel from one vendor, store it in someone else's tank and track it on paper. We run the whole chain, so there is one record from depot to dashboard.",
 };
 
 export const approachSteps: ApproachStep[] = [
   {
     id: "source",
-    image: "approach-source",
     icon: "droplet",
+    image: "approach-source",
     title: "Source",
-    line: "Fuel procured from authorized sources only.",
+    line: "Fuel from authorized sources only.",
     details: [
-      "Supply drawn through authorized channels, subject to applicable regulations",
+      "Drawn through authorized channels, subject to applicable regulations",
       "Grade and quantity confirmed before dispatch",
-      "Documentation that travels with every load",
+      "Paperwork travels with every load",
     ],
   },
   {
     id: "deliver",
-    image: "approach-deliver",
     icon: "truck",
+    image: "approach-deliver",
     title: "Deliver",
-    line: "Metered, scheduled delivery to your site.",
-    details: [
-      "Delivery windows planned around your operations",
-      "Metered dispensing with a record for every drop",
-      "GST invoice issued against the delivered quantity",
-    ],
+    line: "Metered delivery to your site.",
+    details: ["Delivery slots planned around your shifts", "Metered fill with a delivery document each time", "GST invoice against the delivered quantity"],
   },
   {
     id: "store",
-    image: "approach-store",
     icon: "cylinder",
+    image: "approach-store",
     title: "Store",
-    line: "Safe on-site storage, sized to your usage.",
-    details: [
-      "Tanks specified to consumption and site layout",
-      "Fabrication and installation with PESO-compliant equipment",
-      "Level sensing ready to connect from day one",
-    ],
+    line: "Tanks sized to what you burn.",
+    details: ["Tank size set by consumption and site layout", "PESO-compliant equipment", "Level sensing ready from day one"],
   },
   {
     id: "dispense",
-    image: "approach-dispense",
     icon: "fuel",
+    image: "approach-dispense",
     title: "Dispense",
-    line: "Every litre issued against a vehicle or asset.",
-    details: [
-      "Metered dispensing units at the point of use",
-      "Issue logs by machine, vehicle or operator",
-      "Mobile bowsers for equipment that can't come to the tank",
-    ],
+    line: "Each fill logged to a machine.",
+    details: ["Metered dispensing units at the point of use", "Issues logged by machine, vehicle or operator", "Bowsers for equipment that can't come to the tank"],
   },
   {
     id: "monitor",
-    image: "approach-monitor",
     icon: "activity",
+    image: "approach-monitor",
     title: "Monitor",
-    line: "Live levels, movements and alerts.",
-    details: [
-      "Automatic tank gauging and IoT sensors report stock levels",
-      "GPS tracking on delivery and bowser movements",
-      "Instant alerts on sudden drops or unusual activity",
-    ],
+    line: "Live levels and alerts.",
+    details: ["ATG and IoT sensors report tank levels", "GPS on delivery and bowser movements, where applicable", "Alerts on sudden drops or unusual draw"],
   },
   {
     id: "analyze",
-    image: "approach-analyze",
     icon: "chartLine",
+    image: "approach-analyze",
     title: "Analyze",
-    line: "Consumption insight that cuts cost and loss.",
-    details: [
-      "Consumption trends by site, asset and period",
-      "Reconciliation of delivered, stored and dispensed quantities",
-      "Reports that support smarter reorder and budgeting",
-    ],
+    line: "Know where the fuel went.",
+    details: ["Consumption by site, machine and period", "Delivered, stored and dispensed quantities reconciled", "Reports for reorders and budgets"],
   },
 ];
+
+export const marqueeItems = ["Source", "Deliver", "Store", "Dispense", "Monitor", "Analyze"];
 
 /* 4 — Products */
 export const productsIntro: SectionIntro = {
   index: "02",
-  eyebrow: "Our Products",
-  title: "Fuel and the infrastructure to manage it",
-  highlight: "infrastructure to manage it",
-  description: "From the diesel itself to the tanks, dispensers and bowsers that keep it accountable on your site.",
+  eyebrow: "Products",
+  title: "What we supply and install",
+  description: "The fuel itself, and the equipment that keeps it counted on site.",
 };
 
 /* 5 — Services */
 export const servicesIntro: SectionIntro = {
   index: "03",
-  eyebrow: "Our Services",
-  title: "Services that keep your operations fuelled",
-  highlight: "fuelled",
-  description: "Delivery, storage, monitoring and control — take one service or combine them into a managed programme.",
+  eyebrow: "Services",
+  title: "How we run it for you",
+  description: "Take one service or several. Each is set up around your site and consumption, not a fixed package.",
 };
 
 /* 6 — Technology */
@@ -158,27 +126,27 @@ export type TechChip = { icon: IconName; label: string; description: string };
 
 export const technologyIntro: SectionIntro = {
   index: "04",
-  eyebrow: "Our Technology",
-  title: "See every litre, not just the invoice",
-  highlight: "every litre",
+  eyebrow: "Technology",
+  title: "See the tank, not just the invoice",
   description:
-    "Sensors, tracking and software turn fuel from a blind spot into a measurable line item — with alerts the moment something looks wrong.",
+    "Sensors on the tank, GPS on the bowser, RFID at the nozzle. The readings land on one dashboard, and your site head gets an alert when something is off.",
 };
 
 export const techChips: TechChip[] = [
-  { icon: "gauge", label: "ATG", description: "Automatic tank gauging" },
-  { icon: "cpu", label: "IoT", description: "Connected sensors" },
-  { icon: "mapPin", label: "GPS", description: "Delivery & bowser tracking" },
-  { icon: "nfc", label: "RFID", description: "Authorized dispensing" },
-  { icon: "dashboard", label: "Dashboard", description: "Live multi-site view" },
-  { icon: "smartphone", label: "App", description: "Updates on mobile" },
-  { icon: "chartBars", label: "Analytics", description: "Consumption trends" },
-  { icon: "bell", label: "Alerts", description: "Drops, refills & thresholds" },
+  { icon: "gauge", label: "ATG", description: "Tank level, measured automatically" },
+  { icon: "cpu", label: "IoT", description: "Sensors that report without a site visit" },
+  { icon: "mapPin", label: "GPS", description: "Where the bowser is, and where it stopped" },
+  { icon: "nfc", label: "RFID", description: "Only tagged machines get fuel" },
+  { icon: "dashboard", label: "Dashboard", description: "Every site on one screen" },
+  { icon: "smartphone", label: "App", description: "Levels and alerts on your phone" },
+  { icon: "chartBars", label: "Analytics", description: "Use per machine, site and week" },
+  { icon: "bell", label: "Alerts", description: "Sudden drops, refills and low stock" },
 ];
 
-/** Values shown in the dashboard mockup. Illustrative only — always rendered with a "Sample" label. */
+/** Dashboard mockup values. Illustrative only — always rendered with a "Sample data" label (PRD §9 rule 5). */
 export const sampleDashboard = {
-  label: "Sample dashboard — illustrative data only",
+  label: "Sample data",
+  note: "Illustrative mockup. Not customer data.",
   title: "Fuel overview",
   sites: [
     { name: "Site A", level: 72 },
@@ -187,122 +155,103 @@ export const sampleDashboard = {
   ],
   weeklyUsage: [42, 58, 51, 66, 49, 73, 61],
   weekDays: ["M", "T", "W", "T", "F", "S", "S"],
-  trend: [30, 42, 38, 55, 48, 62, 58, 70, 64, 78],
   alerts: [
     { tone: "warn", text: "Site B below reorder level" },
-    { tone: "ok", text: "Delivery reconciled at Site A" },
+    { tone: "ok", text: "Delivery reconciled, Site A" },
   ] as { tone: "warn" | "ok"; text: string }[],
 };
 
 /* 7 — EV Charging teaser */
 export const evTeaser = {
   index: "05",
-  eyebrow: "EV Charging Solutions",
-  title: "Ready for what powers your fleet next",
-  highlight: "what powers your fleet next",
+  eyebrow: "EV Charging",
+  title: "EV charging, planned like fuel",
   description:
-    "The same infrastructure discipline we bring to fuel, applied to EV charging — for hotels, highways, residential societies, fleet depots and parking operators.",
+    "We survey the site, plan the electrical load, install AC or DC chargers and look after them afterwards. For hotels, highways, housing societies, fleet depots and parking.",
   points: [
-    { icon: "plugZap", title: "AC & DC charging", description: "Charger options matched to dwell time and usage." },
-    { icon: "mapPin", title: "Site survey first", description: "Load, layout and access assessed before we propose anything." },
-    { icon: "wrench", title: "Install & support", description: "Installation, commissioning and ongoing support." },
-  ] satisfies IconPoint[],
+    { title: "AC and DC chargers", description: "Chosen by how long vehicles stay parked." },
+    { title: "Site survey first", description: "Load, layout and access checked before we quote." },
+    { title: "Installed and maintained", description: "Commissioning, OCPP software and AMC support." },
+  ],
   image: "ev-charger" as ImageSlotKey,
-  primaryCta: { label: "Book a Site Survey", href: `${ROUTES.contact}?solution=ev-charging` },
+  caption: "FIG. 05 — EV charger, host site",
+  primaryCta: { label: "Book a Site Survey", href: ROUTES.contact },
   secondaryCta: { label: "Explore EV Charging", href: ROUTES.evCharging },
 };
 
 /* 8 — Industries + segments */
 export const industriesIntro: SectionIntro = {
   index: "06",
-  eyebrow: "Industries We Serve",
-  title: "Built for operations that run on diesel",
-  highlight: "run on diesel",
-  description: "Wherever generators, machines and fleets can't stop, fuel has to arrive on time — and be accounted for.",
+  eyebrow: "Industries",
+  title: "Sites that can't stop for fuel",
+  description: "When a DG set, excavator or truck runs dry, work stops with it. These are the sectors we plan for.",
 };
 
-export type Industry = IconPoint & { image: ImageSlotKey };
-
-export const industries: Industry[] = [
-  { icon: "hardHat", image: "industry-construction", title: "Construction", description: "Earthmovers, DG sets and batching plants on active building sites." },
-  { icon: "factory", image: "industry-manufacturing", title: "Manufacturing", description: "Boilers, gensets and process equipment in plants and units." },
-  { icon: "mountain", image: "industry-mining", title: "Mining", description: "Heavy equipment running long shifts in remote locations." },
-  { icon: "truck", image: "industry-logistics", title: "Logistics & Fleet", description: "Depot refuelling with per-vehicle issue records." },
-  { icon: "tower", image: "industry-telecom", title: "Telecom Towers", description: "Backup power for tower sites spread across regions." },
-  { icon: "route", image: "industry-infrastructure", title: "Infrastructure", description: "Road, rail, metro and bridge projects with equipment spread across long stretches." },
-  { icon: "building", image: "industry-commercial", title: "Commercial Facilities", description: "Malls, offices, hospitals and data centres running DG backup." },
-];
-
-export const customerSegments = {
-  label: "Customer segments",
-  items: ["Builders", "Contractors", "Factories", "Fleets", "Telecom"],
-};
+export const segmentsLabel = "Customer segments";
 
 /* 9 — End-to-end teaser */
-export const ecosystemTeaser = {
+export const endToEndTeaser = {
   index: "07",
-  eyebrow: "End-to-End Energy Infrastructure",
-  title: "One ecosystem, from the first litre to the first charge",
-  highlight: "first charge",
-  description: "Take a single service or the full chain. Every step connects to the next, with one partner accountable for the whole.",
+  eyebrow: "End-to-End",
+  title: "One partner from first litre to first charge",
+  description: "Take one step or the whole chain. Each connects to the next, and one team answers for all of it.",
   steps: [
-    { icon: "fuel", label: "Fuel Supply" },
-    { icon: "truck", label: "Transportation" },
-    { icon: "cylinder", label: "Storage" },
-    { icon: "gauge", label: "Dispensing" },
-    { icon: "activity", label: "Digital Monitoring" },
-    { icon: "dashboard", label: "Fuel Management" },
-    { icon: "batteryCharging", label: "EV Charging" },
-  ] as { icon: IconName; label: string }[],
-  image: "end-to-end-panorama" as ImageSlotKey,
+    { icon: "fuel", label: "Fuel Supply", href: productHref("hsd-diesel-supply") },
+    { icon: "truck", label: "Transportation", href: productHref("fuel-bowser") },
+    { icon: "cylinder", label: "Storage", href: productHref("smart-diesel-storage-tanks") },
+    { icon: "gauge", label: "Dispensing", href: productHref("fuel-dispensing-units") },
+    { icon: "activity", label: "Digital Monitoring", href: serviceHref("fuel-monitoring-iot") },
+    { icon: "dashboard", label: "Fuel Management", href: serviceHref("fuel-management-solution") },
+    { icon: "plugZap", label: "EV Charging", href: ROUTES.evCharging },
+  ] as { icon: IconName; label: string; href: string }[],
   cta: { label: "See the full ecosystem", href: ROUTES.endToEnd },
 };
 
 /* 10 — Pan-India network */
 export const networkIntro: SectionIntro = {
   index: "08",
-  eyebrow: "Pan-India Network",
-  title: "Check availability at your location",
-  highlight: "your location",
+  eyebrow: "Network",
+  title: "Check delivery to your site",
   description:
-    "We're building supply coverage across India. Enter your city or PIN code and our team will confirm availability for your site.",
+    "We are building supply coverage across India, city by city. Enter your city or PIN code. If it is on our list you'll see it here. If not, our team will confirm.",
 };
 
-export const coverageCheck = {
+export const coverageCopy = {
   label: "City or PIN code",
   placeholder: "e.g. Pune or 411001",
-  button: "Check availability",
+  button: "Check",
   errorMessage: "Enter a city name or a 6-digit PIN code.",
-  successTitle: "Thanks — we've noted your location.",
-  successBody: "Our team will confirm availability for {location}. For a faster answer, call our toll-free line or request a quote.",
-  // PLACEHOLDER — active vs expanding coverage is not yet confirmed by the client (PRD §9 item 8).
-  mapNote: "Coverage map is illustrative. Active and expanding regions to be confirmed.",
+  matchActive: "{location} is in our active network.",
+  matchExpanding: "{location} is in an area we are expanding into.",
+  noMatch: "Our team will confirm availability for your location.",
+  noMatchBody: "Send a quote request with your site location and monthly volume, or call us.",
+  quoteLabel: "Get a Quote",
+  /** PLACEHOLDER — shown until content/coverage.ts has client-confirmed data. */
+  mapNote: "Coverage regions will appear here once confirmed. Markers are reference cities, not coverage.",
+  legend: { active: "Active", expanding: "Expanding", reference: "Reference city" },
 };
 
-/* 11 — Why IndoX */
+/* 11 — Why IndoX (titles exactly as PRD §8.1) */
 export const whyIntro: SectionIntro = {
   index: "09",
-  eyebrow: "Why IndoX Energy",
-  title: "Fuel you can account for",
-  highlight: "account for",
-  description: "What you get when supply, storage and data come from one partner.",
+  eyebrow: "Why IndoX",
+  title: "Why IndoX Energy",
 };
 
-export const whyPoints: IconPoint[] = [
-  { icon: "badgeCheck", title: "Authorized sourcing", description: "Fuel drawn from authorized sources, subject to applicable regulations — never grey-market." },
-  { icon: "receipt", title: "Metered & documented", description: "Every delivery metered, recorded and backed by a GST invoice." },
-  { icon: "cpu", title: "Technology built in", description: "ATG, IoT and dashboards come as part of the solution, not an afterthought." },
-  { icon: "workflow", title: "End-to-end ownership", description: "Supply, storage, dispensing and monitoring under one accountable partner." },
-  { icon: "shieldCheck", title: "Safety & compliance first", description: "PESO-compliant equipment and handling practices on every site." },
-  { icon: "headset", title: "Responsive support", description: "A toll-free line and WhatsApp for fast answers when your site needs fuel." },
+export const whyPoints: { icon: IconName; title: string; description: string }[] = [
+  { icon: "truck", title: "Reliable Supply Network", description: "Authorized sources and planned delivery slots, so sites aren't left waiting on fuel." },
+  { icon: "cpu", title: "Technology Driven", description: "ATG, IoT sensors, GPS and dashboards come with the supply, not as an extra." },
+  { icon: "wrench", title: "Customized Solutions", description: "Tank size, delivery frequency and monitoring set by your consumption and site layout." },
+  { icon: "workflow", title: "End-to-End Support", description: "Supply, storage, dispensing and monitoring handled by one team, one point of contact." },
+  { icon: "receipt", title: "Transparent Operations", description: "Metered deliveries, delivery documents and GST invoices. Every litre can be traced." },
+  { icon: "route", title: "Scalable Network", description: "Start with one site. Add more as projects and fleets grow." },
 ];
 
 /* 12 — Blog */
 export const blogIntro: SectionIntro = {
   index: "10",
-  eyebrow: "Latest from the blog",
-  title: "Insights for fuel-intensive operations",
-  highlight: "fuel-intensive operations",
+  eyebrow: "Blog",
+  title: "Notes for site and fuel managers",
 };
 
-export const blogPreviewLabels = { viewAll: "View all articles", readMore: "Read article" };
+export const blogLabels = { viewAll: "All articles", readMore: "Read article" };
