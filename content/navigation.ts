@@ -16,6 +16,8 @@ export const ROUTES = {
   endToEnd: "/end-to-end-energy-infrastructure/",
   blog: "/blog/",
   contact: "/contact/",
+  /** Every "Get a Quote" lands here: the contact page with the 2-step form in view. */
+  quote: "/contact/#quote-form",
   thankYou: "/thank-you/",
   privacy: "/privacy/",
   terms: "/terms/",
@@ -24,6 +26,20 @@ export const ROUTES = {
 export const productHref = (slug: string) => `/products/${slug}/`;
 export const serviceHref = (slug: string) => `/services/${slug}/`;
 export const blogHref = (slug: string) => `/blog/${slug}/`;
+
+/** Anchor id of QuoteFormFull on /contact/. */
+export const QUOTE_FORM_ID = "quote-form";
+/** Query keys QuoteFormFull reads to pre-select Step 1 (service = service slug or "ev-charging" / "end-to-end"). */
+export const QUOTE_PARAMS = { service: "service", product: "product" } as const;
+
+/** Deep link into the quote form, e.g. quoteHref({ product: "fuel-bowser" }) → /contact/?product=fuel-bowser#quote-form */
+export function quoteHref(preselect: { service?: string; product?: string } = {}): string {
+  const query = new URLSearchParams();
+  if (preselect.service) query.set(QUOTE_PARAMS.service, preselect.service);
+  if (preselect.product) query.set(QUOTE_PARAMS.product, preselect.product);
+  const qs = query.toString();
+  return `${ROUTES.contact}${qs ? `?${qs}` : ""}#${QUOTE_FORM_ID}`;
+}
 
 export type NavLink = { label: string; href: string };
 export type MegaKey = "products" | "services";
@@ -55,7 +71,7 @@ export const megaMenus: Record<MegaKey, { title: string; viewAll: string; href: 
   },
 };
 
-export const quoteCta: NavLink = { label: "Get a Quote", href: ROUTES.contact };
+export const quoteCta: NavLink = { label: "Get a Quote", href: ROUTES.quote };
 
 /** Footer columns 2–4 (PRD §6). Column 1 (brand) and 5 (contact) render from content/company.ts. */
 export const footerColumns: { title: string; links: NavLink[] }[] = [
@@ -84,18 +100,26 @@ export const legalLinks: NavLink[] = [
   { label: "Terms", href: ROUTES.terms },
 ];
 
-/** Every public route for sitemap.xml (PRD §5 minus /thank-you, which is noindex; 404 has no URL). */
+/**
+ * Public routes for sitemap.xml — only routes that are BUILT. Add each route here when its phase ships
+ * (a sitemap entry that 404s wastes crawl budget). /thank-you/ is noindex and never listed; 404 has no URL.
+ * Blog posts are appended in app/sitemap.ts (read at build time from content/blog/; this file stays client-safe).
+ * Still to add: privacy, terms.
+ */
 export const sitemapRoutes: string[] = [
   ROUTES.home,
-  ROUTES.about,
+  // Phase 2 — products
   ROUTES.products,
   ...products.map((p) => productHref(p.slug)),
+  // Phase 3 — services
   ROUTES.services,
   ...services.map((s) => serviceHref(s.slug)),
+  // Phase 4 — company
+  ROUTES.about,
+  ROUTES.contact,
+  // Phase 5 — EV + End-to-End
   ROUTES.evCharging,
   ROUTES.endToEnd,
+  // Phase 6 — blog listing (articles added in app/sitemap.ts)
   ROUTES.blog,
-  ROUTES.contact,
-  ROUTES.privacy,
-  ROUTES.terms,
 ];

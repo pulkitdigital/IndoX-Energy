@@ -1,6 +1,6 @@
 import type { IconName } from "@/lib/icons";
 import type { ImageSlotKey } from "@/content/images";
-import { ROUTES, productHref, serviceHref } from "@/content/navigation";
+import { ROUTES, productHref, quoteHref, serviceHref } from "@/content/navigation";
 
 /**
  * All Home page copy (PRD §8.1). Components render this; they don't own copy.
@@ -23,7 +23,7 @@ export const hero = {
   titleLines: ["From fuel supply", "to fuel intelligence"],
   subline:
     "We supply diesel to sites, plants and fleets. It comes from authorized sources, arrives metered, and goes into tanks you can check from your phone. Every litre is on record.",
-  primaryCta: { label: "Get a Quote", href: ROUTES.contact },
+  primaryCta: { label: "Get a Quote", href: ROUTES.quote },
   secondaryCta: { label: "Explore Services", href: ROUTES.services },
   image: "hero-bowser" as ImageSlotKey,
   caption: "FIG. 01 — Fuel bowser, metered site delivery",
@@ -175,7 +175,7 @@ export const evTeaser = {
   ],
   image: "ev-charger" as ImageSlotKey,
   caption: "FIG. 05 — EV charger, host site",
-  primaryCta: { label: "Book a Site Survey", href: ROUTES.contact },
+  primaryCta: { label: "Book a Site Survey", href: quoteHref({ service: "ev-charging" }) },
   secondaryCta: { label: "Explore EV Charging", href: ROUTES.evCharging },
 };
 

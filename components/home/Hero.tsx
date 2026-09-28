@@ -236,6 +236,7 @@ import { hero } from "@/content/home";
 import { company } from "@/content/company";
 import { GSAP_EASE, HERO, MQ } from "@/lib/motion";
 import { useLenis } from "@/components/animations/SmoothScrollProvider";
+import { images } from "@/content/images";
 
 import CtaLink from "@/components/ui/CtaLink";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -455,7 +456,7 @@ export default function Hero() {
         className="absolute inset-0 -z-30"
       >
         <Image
-          src="/images/home/hero/indox-industrial-bg.webp"
+          src={images["indox-industrial-bg"].src}
           alt=""
           fill
           priority
@@ -554,6 +555,7 @@ export default function Hero() {
           >
             <Eyebrow
               index="00"
+              tone="onDark"
               className="text-white/50"
               label={hero.eyebrow}
             />
@@ -666,7 +668,7 @@ export default function Hero() {
               "
             >
               {hero.labels.map((label) => (
-                <SpecLabel key={label}>
+                <SpecLabel key={label} tone="onDark">
                   {label}
                 </SpecLabel>
               ))}
@@ -794,8 +796,8 @@ export default function Hero() {
           "
         >
           <Image
-            src="/images/home/hero/indox-truck-3d.webp"
-            alt="IndoX Energy fuel delivery bowser"
+            src={images["indox-truck-3d"].src}
+            alt={images["indox-truck-3d"].alt}
             fill
             priority
             sizes="

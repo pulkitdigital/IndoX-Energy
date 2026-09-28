@@ -48,7 +48,7 @@ export default function FooterTruck() {
         const drive = gsap.fromTo(
           truck,
           { x: () => -truck.offsetWidth },
-          { x: () => root.offsetWidth, duration: crossing, ease: "none", repeat: -1, paused: true, invalidateOnRefresh: true },
+          { x: () => root.offsetWidth, duration: crossing, ease: "none", repeat: -1, paused: true },
         );
         const wheels = gsap.utils.toArray<SVGGElement>("[data-wheel]", root).map((wheel, i) =>
           gsap.to(wheel, {
@@ -83,6 +83,8 @@ export default function FooterTruck() {
           start: "top bottom",
           end: "bottom top",
           onToggle: (self) => all.forEach((tween) => (self.isActive ? tween.play() : tween.pause())),
+          // Re-measure the crossing distance after resizes (function-based x values re-run on invalidate).
+          onRefresh: () => drive.invalidate(),
         });
       });
     }, root);

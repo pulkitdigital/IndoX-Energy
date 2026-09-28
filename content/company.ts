@@ -1,3 +1,5 @@
+import type { ImageSlotKey } from "@/content/images";
+
 /**
  * Company facts, contact channels and legal lines. Values marked PLACEHOLDER must be confirmed by the
  * client before launch (PRD §12 item 6). `null` = not supplied yet; components render a PlaceholderBadge.
@@ -50,6 +52,38 @@ export const company = {
     { label: "YouTube", href: null },
   ] as SocialLink[],
 } as const;
+
+/** Leadership card (About › Leadership). The section renders nothing while `leadership` is empty. */
+export type Leader = {
+  name: string;
+  role: string;
+  /** Image slot from content/images.ts (add an about/ slot per person). */
+  photo?: ImageSlotKey;
+  linkedin?: string;
+};
+
+/** Licence / certificate card (About › Licences). Real documents only; the section renders nothing while empty. */
+export type Licence = {
+  name: string;
+  number: string;
+  /** Optional link to the document, e.g. /docs/licence-peso.pdf in public/docs/. */
+  href?: string;
+};
+
+/** PLACEHOLDER — client to supply: founder and key team (name, role, photo, LinkedIn). Never invent people. */
+export const leadership: Leader[] = [];
+
+/** PLACEHOLDER — client to supply: licence / certificate name + number (+ document). Never invent licences. */
+export const licences: Licence[] = [];
+
+/**
+ * PLACEHOLDER — callback promise in working hours ("Our team calls back within X working hours", PRD §8.11).
+ * null = not confirmed; the site then says "Our team will call you back shortly." Never invent a time.
+ */
+export const RESPONSE_HOURS: number | null = null;
+
+/** Company profile PDF. The About download button renders only if this file exists in public/ at build time. */
+export const COMPANY_PROFILE_PDF = "/docs/indox-company-profile.pdf";
 
 export const WHATSAPP_DEFAULT_MESSAGE = "Hi IndoX, I need a quote for…";
 

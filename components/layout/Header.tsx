@@ -69,7 +69,8 @@ export default function Header() {
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   const isActive = (href: string) => (href === ROUTES.home ? pathname === href : pathname.startsWith(href.replace(/\/$/, "")));
-  const solid = scrolled || openMenu !== null;
+  // White-on-transparent only over the Home hero; inner pages start light/theme-coloured, so they use the solid style.
+  const solid = scrolled || openMenu !== null || pathname !== ROUTES.home;
   const navItemClass = "hv-link inline-flex items-center gap-1 py-1.5 text-[0.875rem] font-medium whitespace-nowrap transition-colors duration-200";
   const navTextClass = (active: boolean) =>
     solid

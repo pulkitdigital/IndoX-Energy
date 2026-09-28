@@ -10,7 +10,7 @@ folder/filename. No code change is needed; until the file exists the site shows 
 - `npm run images:placeholders` creates labelled placeholder files for missing slots only (never overwrites).
 - Logos live in `public/logo/`, not here. Never use a retail fuel-station photo.
 
-Folders: `home/`, `products/`, `services/`, `industries/`, `blog/`, `ev/`, `about/`. Reserved for future pages (no slots yet): `about/`.
+Folders: `home/`, `home/hero/`, `products/`, `services/`, `industries/`, `blog/`, `ev/`, `about/`, `contact/`, `end-to-end/`.
 
 | File (public/images/…) | Size (px) | Aspect ratio | Where it appears |
 |---|---|---|---|
@@ -22,20 +22,27 @@ Folders: `home/`, `products/`, `services/`, `industries/`, `blog/`, `ev/`, `abou
 | `home/approach-store.webp` | 1200 × 900 | 4:3 | Home — Our Approach, step 03 Store (step detail) |
 | `home/cta-bg.webp` | 1920 × 1080 | 16:9 | Reserved — quote CTA background (not rendered yet) |
 | `home/end-to-end-panorama.webp` | 2400 × 1000 | 12:5 | Reserved — End-to-End Infrastructure panorama (not rendered yet) |
-| `home/hero-bowser.webp` | 1500 × 1000 | 3:2 | Home — hero, right column (16:11 frame) |
+| `home/hero-bowser.webp` | 1500 × 1000 | 3:2 | Reserved — earlier Home hero image (not rendered by the current hero) |
 | `home/tech-bg.webp` | 1920 × 1080 | 16:9 | Reserved — technology background (not rendered yet) |
-| `products/product-bowser.webp` | 1200 × 900 | 4:3 | Home — Products card (4:3); product page hero (Phase 2) |
-| `products/product-bulk.webp` | 1200 × 900 | 4:3 | Home — Products card (4:3); product page hero (Phase 2) |
-| `products/product-du.webp` | 1200 × 900 | 4:3 | Home — Products card (4:3); product page hero (Phase 2) |
-| `products/product-hsd.webp` | 1200 × 900 | 4:3 | Home — Products card (4:3); product page hero (Phase 2) |
-| `products/product-tank.webp` | 1200 × 900 | 4:3 | Home — Products card (4:3); product page hero (Phase 2) |
-| `services/service-bulk.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
-| `services/service-doorstep.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
-| `services/service-fabrication.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
-| `services/service-inventory.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
-| `services/service-management.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
-| `services/service-monitoring.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
-| `services/service-theft.webp` | 1500 × 1000 | 3:2 | Service page hero (Phase 2) |
+| `home/hero/indox-industrial-bg.webp` | 1672 × 941 | 1672:941 | Home — hero full-bleed background (decorative, object-cover) |
+| `home/hero/indox-truck-3d.webp` | 1536 × 1024 | 3:2 | Home — hero truck cut-out (object-contain, transparent background) |
+| `products/detail-bowser.webp` | 1200 × 900 | 4:3 | /products/fuel-bowser/ — Overview block (4:3) |
+| `products/detail-bulk.webp` | 1200 × 900 | 4:3 | /products/bulk-fuel-oil-supply/ — Overview block (4:3) |
+| `products/detail-du.webp` | 1200 × 900 | 4:3 | /products/fuel-dispensing-units/ — Overview block (4:3) |
+| `products/detail-hsd.webp` | 1200 × 900 | 4:3 | /products/hsd-diesel-supply/ — Overview block (4:3) |
+| `products/detail-tank.webp` | 1200 × 900 | 4:3 | /products/smart-diesel-storage-tanks/ — Overview block (4:3) |
+| `products/product-bowser.webp` | 1200 × 900 | 4:3 | Home — Products card; /products/ card; /products/fuel-bowser/ hero; Other products cards (all 4:3) |
+| `products/product-bulk.webp` | 1200 × 900 | 4:3 | Home — Products card; /products/ card; /products/bulk-fuel-oil-supply/ hero; Other products cards (all 4:3) |
+| `products/product-du.webp` | 1200 × 900 | 4:3 | Home — Products card; /products/ card; /products/fuel-dispensing-units/ hero; Other products cards (all 4:3) |
+| `products/product-hsd.webp` | 1200 × 900 | 4:3 | Home — Products card; /products/ card; /products/hsd-diesel-supply/ hero; Other products cards (all 4:3) |
+| `products/product-tank.webp` | 1200 × 900 | 4:3 | Home — Products card; /products/ card; /products/smart-diesel-storage-tanks/ hero; Other products cards (all 4:3) |
+| `services/service-bulk.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
+| `services/service-doorstep.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
+| `services/service-fabrication.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
+| `services/service-inventory.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
+| `services/service-management.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
+| `services/service-monitoring.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
+| `services/service-theft.webp` | 1200 × 900 | 4:3 | /services/ card; service page hero; Other services cards (all 4:3) |
 | `industries/industry-agriculture.webp` | 1200 × 900 | 4:3 | Home — Industries tile (4:3) |
 | `industries/industry-commercial.webp` | 1200 × 900 | 4:3 | Home — Industries tile (4:3) |
 | `industries/industry-construction.webp` | 1200 × 900 | 4:3 | Home — Industries tile (4:3) |
@@ -50,4 +57,12 @@ Folders: `home/`, `products/`, `services/`, `industries/`, `blog/`, `ev/`, `abou
 | `blog/blog-ev-setup.webp` | 1600 × 900 | 16:9 | Blog post cover (not in the Home preview while 3 newer posts exist) |
 | `blog/blog-fuel-grades.webp` | 1600 × 900 | 16:9 | Blog post cover (not in the Home preview while 3 newer posts exist) |
 | `blog/blog-fuel-safety.webp` | 1600 × 900 | 16:9 | Blog post cover (not in the Home preview while 3 newer posts exist) |
-| `ev/ev-charger.webp` | 1500 × 1000 | 3:2 | Home — EV Charging teaser |
+| `ev/ev-ac.webp` | 1200 × 900 | 4:3 | /ev-charging/ — AC vs DC table, AC column header (4:3) |
+| `ev/ev-charger.webp` | 1500 × 1000 | 3:2 | Home — EV Charging teaser (Home only) |
+| `ev/ev-dc.webp` | 1200 × 900 | 4:3 | /ev-charging/ — AC vs DC table, DC column header (4:3) |
+| `ev/ev-hero.webp` | 1600 × 900 | 16:9 | /ev-charging/ — hero (16:9) |
+| `about/about-hero.webp` | 1600 × 900 | 16:9 | /about/ — hero, full-width 16:9 frame |
+| `about/about-quality-bowser.webp` | 1200 × 900 | 4:3 | /about/#quality-safety — annotated bowser (4:3); callouts are code overlays, keep the bowser side-on |
+| `about/about-story.webp` | 1200 × 900 | 4:3 | /about/ — Our story (4:3) |
+| `contact/contact-hero.webp` | 1600 × 900 | 16:9 | /contact/ — hero (16:9) |
+| `end-to-end/e2e-hero.webp` | 1600 × 900 | 16:9 | /end-to-end-energy-infrastructure/ — hero, full-width 16:9 frame |

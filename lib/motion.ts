@@ -78,11 +78,26 @@ export const HERO = {
   cueBobDuration: 1.2,
 } as const;
 
+/** Service pages — How it works strip: each step's accent line draws in order (scaleX from 640px up, scaleY below). No pinning. */
+export const PROCESS = {
+  lineDuration: 0.6,
+  stagger: 0.18,
+  /** ScrollTrigger start for the one-shot draw. */
+  start: "top 80%",
+} as const;
+
 export const APPROACH = {
   /** ScrollTrigger scrub smoothing (seconds of lag). */
   scrub: 0.6,
   /** Step state cross-fade. */
   stepFade: 0.4,
+} as const;
+
+/** End-to-End ecosystem flow: the line scrubs with scroll (no pin) and nodes activate as it reaches them. */
+export const ECOSYSTEM = {
+  scrub: 0.6,
+  start: "top 75%",
+  end: "bottom 55%",
 } as const;
 
 export const PARALLAX = {

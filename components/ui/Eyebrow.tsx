@@ -5,13 +5,14 @@ type EyebrowProps = {
   index?: string;
   label: string;
   className?: string;
-  /** "default" = theme tokens; "onBrand" = white on the solid brand-blue band. */
-  tone?: "default" | "onBrand";
+  /** "default" = theme tokens; "onBrand" = white on the solid brand-blue band; "onDark" = white on a dark photo (Home hero). */
+  tone?: "default" | "onBrand" | "onDark";
 };
 
 /** Technical section label: `01 / APPROACH ———` in mono caps with a thin rule. Every section starts with one. */
 export default function Eyebrow({ index, label, className, tone = "default" }: EyebrowProps) {
-  const onBrand = tone === "onBrand";
+  // onBrand and onDark share the white treatment: both sit on a dark surface in either theme.
+  const onBrand = tone !== "default";
   return (
     <p className={cn("label-caps flex items-center gap-2.5", onBrand ? "text-on-brand/85" : "text-muted-foreground", className)}>
       {index ? (

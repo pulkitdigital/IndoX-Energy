@@ -17,7 +17,7 @@ type CtaLinkProps = {
   /** Internal route. Use `contact` instead for call / WhatsApp buttons. */
   href?: string;
   /** Renders a tracked tel: / wa.me button (fires call_click / whatsapp_click). */
-  contact?: { kind: "call" | "whatsapp"; location: string };
+  contact?: { kind: "call" | "whatsapp"; location: string; /** Pre-filled WhatsApp message. */ message?: string };
   /**
    * primary = solid brand-blue, white text. outline = 1px border, neutral text (accent border + solid wipe on hover).
    * text = link-coloured text with slide-in underline. onBrand / outlineOnBrand = on the solid brand-blue band.
@@ -82,7 +82,7 @@ export default function CtaLink({ href, contact, children, variant = "primary", 
     const isWhatsApp = contact.kind === "whatsapp";
     link = (
       <a
-        href={isWhatsApp ? whatsappHref() : telHref}
+        href={isWhatsApp ? whatsappHref(contact.message) : telHref}
         onClick={() => trackEvent(isWhatsApp ? "whatsapp_click" : "call_click", { location: contact.location })}
         {...(isWhatsApp && hasWhatsApp ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         className={cn(classes, magnetic && "w-full")}

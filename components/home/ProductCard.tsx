@@ -18,6 +18,8 @@ type ProductCardProps = {
   labels: string[];
   /** Index, e.g. "01". */
   index: string;
+  /** Footer link text. Home keeps the default; /products/ passes "Explore" (PRD §8.3). */
+  ctaLabel?: string;
 };
 
 /**
@@ -26,7 +28,7 @@ type ProductCardProps = {
  * Light 3D tilt toward the cursor (max 4deg) on desktop fine pointers only.
  * motion owns the card transform; the image only zooms via the CSS hover system — different elements.
  */
-export default function ProductCard({ href, title, description, image, labels, index }: ProductCardProps) {
+export default function ProductCard({ href, title, description, image, labels, index, ctaLabel = "View details" }: ProductCardProps) {
   const reduceMotion = useReducedMotion();
   const desktopFine = useMediaQuery(MQ.desktopFine);
   const tiltOn = desktopFine && !reduceMotion;
@@ -78,7 +80,7 @@ export default function ProductCard({ href, title, description, image, labels, i
           <h3 className="text-lg">{title}</h3>
           <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">{description}</p>
           <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-link">
-            View details
+            {ctaLabel}
             <ArrowRight className="hv-arrow size-4" strokeWidth={1.75} aria-hidden="true" />
           </span>
         </div>

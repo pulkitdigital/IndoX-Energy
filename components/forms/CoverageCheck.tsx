@@ -93,7 +93,7 @@ export default function CoverageCheck() {
               </p>
               {!result.match ? <p className="mt-2 pl-4 text-sm text-muted-foreground">{coverageCopy.noMatchBody}</p> : null}
               <div className="mt-5 flex flex-wrap gap-3 pl-4">
-                <CtaLink href={ROUTES.contact} size="sm" arrow>
+                <CtaLink href={ROUTES.quote} size="sm" arrow>
                   {coverageCopy.quoteLabel}
                 </CtaLink>
                 <ContactLink
