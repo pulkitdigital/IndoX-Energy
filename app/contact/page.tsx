@@ -19,6 +19,7 @@ import PlaceholderBadge from "@/components/ui/PlaceholderBadge";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
 import RouteLine from "@/components/decor/RouteLine";
+import DottedField from "@/components/decor/DottedField";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({ ...contact.seo, path: ROUTES.contact });
@@ -128,7 +129,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section aria-labelledby="office-title" className="section-y">
+      <section aria-labelledby="office-title" className="relative isolate section-y">
+        <DottedField side="right" />
         <div className="container-x">
           <SectionHeading id="office-title" index={office.index} eyebrow={office.eyebrow} title={office.title} />
           <ScrollReveal className="mt-10">

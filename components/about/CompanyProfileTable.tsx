@@ -6,6 +6,7 @@ import { COMPANY_PROFILE_PDF, company } from "@/content/company";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import PlaceholderBadge from "@/components/ui/PlaceholderBadge";
 import SectionHeading from "@/components/ui/SectionHeading";
+import DottedField from "@/components/decor/DottedField";
 
 /**
  * Company Profile (PRD §8.2 section 9). Register facts (legal name, CIN, GSTIN, registered office) come from
@@ -26,7 +27,8 @@ export default function CompanyProfileTable({ index }: { index: string }) {
   ];
 
   return (
-    <section aria-labelledby="profile-title" className="section-y border-y border-border bg-elevated">
+    <section aria-labelledby="profile-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <DottedField side="left" />
       <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-4">
           <SectionHeading id="profile-title" index={index} eyebrow={p.eyebrow} title={p.title} />

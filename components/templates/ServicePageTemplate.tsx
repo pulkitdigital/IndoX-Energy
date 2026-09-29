@@ -22,6 +22,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
 import RouteLine from "@/components/decor/RouteLine";
 import DottedField from "@/components/decor/DottedField";
+import GridLines from "@/components/decor/GridLines";
 
 /** Three other services: same group first, then catalogue order. */
 function otherServices(current: Service): Service[] {
@@ -69,7 +70,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
       <TrustStrip />
 
       {/* 2 — The problem */}
-      <section aria-labelledby="problem-title" className="section-y">
+      <section aria-labelledby="problem-title" className="relative isolate section-y">
+        <GridLines side="right" />
         <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
           <SectionHeading id="problem-title" index="01" eyebrow={copy.problem.eyebrow} title={copy.problem.title} className="lg:col-span-4" />
           <ol className="grid border-t border-border md:grid-cols-3 lg:col-span-8">
@@ -134,7 +136,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
 
       {/* 7 — Related product */}
       {product ? (
-        <section aria-labelledby="related-title" className="section-y border-y border-border bg-elevated">
+        <section aria-labelledby="related-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <RouteLine />
           <div className="container-x">
             <SectionHeading
               id="related-title"

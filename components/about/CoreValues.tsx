@@ -3,12 +3,14 @@ import { about } from "@/content/about";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import DottedField from "@/components/decor/DottedField";
 
 /** Core Values — 6 tiles (3×2 desktop, 2 tablet, 1 mobile). Plain accent line icons, no icon boxes. */
 export default function CoreValues({ index }: { index: string }) {
   const { eyebrow, title, values } = about.coreValues;
   return (
-    <section aria-labelledby="values-title" className="section-y">
+    <section aria-labelledby="values-title" className="relative isolate section-y">
+        <DottedField side="left" />
       <div className="container-x">
         <SectionHeading id="values-title" index={index} eyebrow={eyebrow} title={title} layout="split" />
         {/* 6 tiles fill 1, 2 or 3 columns exactly, so a gap-px grid gives clean 1px hairlines at every width. */}

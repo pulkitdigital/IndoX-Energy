@@ -23,6 +23,7 @@ import ImageSlot from "@/components/ui/ImageSlot";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
 import DottedField from "@/components/decor/DottedField";
+import RouteLine from "@/components/decor/RouteLine";
 
 /**
  * The one template behind all 5 product pages (PRD §8.4, 9 blocks, in order):
@@ -115,7 +116,8 @@ export default function ProductPageTemplate({ product }: { product: Product }) {
 
       {/* 5 — Related service */}
       {service ? (
-        <section aria-labelledby="related-title" className="section-y border-y border-border bg-elevated">
+        <section aria-labelledby="related-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <RouteLine />
           <div className="container-x">
             <SectionHeading
               id="related-title"

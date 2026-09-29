@@ -20,12 +20,13 @@ type ScrollRevealProps = {
 export default function ScrollReveal({ children, className, delay = 0, y = REVEAL.y, amount = 0.2, as = "div" }: ScrollRevealProps) {
   const reduceMotion = useReducedMotion();
   const Tag = as;
-  if (reduceMotion) return <Tag className={className}>{children}</Tag>;
+  if (reduceMotion) return <Tag className={className} data-reveal>{children}</Tag>;
 
   const MotionTag = as === "li" ? motion.li : motion.div;
   return (
     <MotionTag
       className={className}
+      data-reveal
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount }}

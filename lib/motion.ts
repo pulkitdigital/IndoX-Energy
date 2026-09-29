@@ -24,8 +24,8 @@ export const MQ = {
 
 export const REVEAL = {
   /** ScrollReveal fade + rise. */
-  duration: 0.55,
-  y: 28,
+  duration: 0.6,
+  y: 40,
   /** Stagger step for grid items. */
   stagger: 0.07,
   /** Heading accent underline draw-in. */
@@ -45,6 +45,23 @@ export const IMAGE_IN = {
   /** Bracket arm length (px) and inset from the frame (px). */
   bracketSize: 18,
   bracketInset: 10,
+} as const;
+
+/** Route-change overlay (components/animations/PageTransition.tsx): fuel tank fills, then wipes away. Total ≈ 0.65s. */
+export const PAGE_TRANSITION = {
+  coverFade: 0.12,
+  fill: 0.28,
+  exit: 0.25,
+  /** prefers-reduced-motion: one plain fade in + out (≈ 150ms total). */
+  reducedFade: 0.075,
+  /** Give up waiting for a route to commit and lift the overlay anyway (ms). */
+  failsafeMs: 2500,
+} as const;
+
+/** Section blocks that no ScrollReveal covers get the same rise-in from components/animations/AutoReveal.tsx. */
+export const AUTO_REVEAL = {
+  start: "top 88%",
+  stagger: 0.07,
 } as const;
 
 export const HERO = {
@@ -200,9 +217,9 @@ export const MARQUEE = {
 export const FOOTER_TRUCK = {
   /** Seconds for one full left → right crossing. */
   crossingSecondsDesktop: 20,
-  crossingSecondsMobile: 14,
-  /** Seconds per full wheel rotation. */
-  wheelTurnSeconds: 0.9,
+  crossingSecondsMobile: 18,
+  /** Seconds per full wheel rotation (≈ real rolling speed for the drawn wheel size). */
+  wheelTurnSeconds: 1.5,
   /** Vertical bounce amplitude (px) and half-cycle duration. */
   bouncePx: 1.5,
   bounceSeconds: 0.35,

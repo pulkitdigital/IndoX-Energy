@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { REVEAL } from "@/lib/motion";
 import type { SectionIntro } from "@/content/home";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -37,11 +38,17 @@ export default function SectionHeading({ index, eyebrow, title, description, lay
   }
 
   return (
-    <ScrollReveal className={cn("max-w-3xl", className)}>
-      <Eyebrow index={index} label={eyebrow} className="mb-6" />
-      {heading}
+    <div className={cn("max-w-3xl", className)}>
+      <ScrollReveal y={24}>
+        <Eyebrow index={index} label={eyebrow} className="mb-6" />
+      </ScrollReveal>
+      <ScrollReveal delay={REVEAL.stagger}>{heading}</ScrollReveal>
       <AccentRule />
-      {description ? <p className="mt-6 max-w-2xl text-muted-foreground">{description}</p> : null}
-    </ScrollReveal>
+      {description ? (
+        <ScrollReveal delay={REVEAL.stagger * 2}>
+          <p className="mt-6 max-w-2xl text-muted-foreground">{description}</p>
+        </ScrollReveal>
+      ) : null}
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { ev } from "@/content/ev";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import DottedField from "@/components/decor/DottedField";
 
 /**
  * Suitable locations (PRD §8.7 section 4): 8 identical tiles, plain accent icons, no images.
@@ -11,7 +12,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 export default function EVLocations({ index }: { index: string }) {
   const { eyebrow, title, items } = ev.locations;
   return (
-    <section aria-labelledby="ev-locations-title" className="section-y border-y border-border bg-elevated">
+    <section aria-labelledby="ev-locations-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <DottedField side="right" />
       <div className="container-x">
         <SectionHeading id="ev-locations-title" index={index} eyebrow={eyebrow} title={title} />
         <ul className="mt-12 grid auto-rows-fr gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">

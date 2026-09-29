@@ -15,6 +15,7 @@ import ProcessStrip from "@/components/templates/ProcessStrip";
 import CtaLink from "@/components/ui/CtaLink";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeading from "@/components/ui/SectionHeading";
+import RouteLine from "@/components/decor/RouteLine";
 
 type ThankYouPost = BlogCardPost & { key: string; category: BlogCategory };
 
@@ -145,7 +146,8 @@ export default function ThankYouContent({ posts }: { posts: ThankYouPost[] }) {
         </div>
       </section>
 
-      <section aria-labelledby="next-title" className="section-y border-y border-border bg-elevated">
+      <section aria-labelledby="next-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <RouteLine />
         <div className="container-x">
           <SectionHeading id="next-title" index={copy.next.index} eyebrow={copy.next.eyebrow} title={copy.next.title} />
           <ScrollReveal className="mt-14">

@@ -3,12 +3,14 @@ import { endToEnd } from "@/content/end-to-end";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import GridLines from "@/components/decor/GridLines";
 
 /** Our Business Model (PRD §8.8) — 4 identical cards (equal heights), each with "Best for" business types. */
 export default function BusinessModelCards({ index }: { index: string }) {
   const { eyebrow, title, bestForLabel, items } = endToEnd.models;
   return (
-    <section aria-labelledby="models-title" className="section-y">
+    <section aria-labelledby="models-title" className="relative isolate section-y">
+        <GridLines side="right" />
       <div className="container-x">
         <SectionHeading id="models-title" index={index} eyebrow={eyebrow} title={title} />
         <ul className="mt-12 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">

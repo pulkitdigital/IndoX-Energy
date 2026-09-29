@@ -13,6 +13,8 @@ import MobileActionBar from "@/components/layout/MobileActionBar";
 import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import CookieNotice from "@/components/layout/CookieNotice";
 import CustomCursor from "@/components/animations/CustomCursor";
+import PageTransition from "@/components/animations/PageTransition";
+import AutoReveal from "@/components/animations/AutoReveal";
 import Analytics from "@/components/analytics/Analytics";
 import JsonLd from "@/components/seo/JsonLd";
 
@@ -53,6 +55,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <WhatsAppFloat />
             <CookieNotice />
             <CustomCursor />
+            <PageTransition />
+            <AutoReveal />
           </SmoothScrollProvider>
         </ThemeProvider>
         <Analytics />

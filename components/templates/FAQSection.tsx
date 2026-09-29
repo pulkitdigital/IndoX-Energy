@@ -6,6 +6,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { REVEAL } from "@/lib/motion";
+import DottedField from "@/components/decor/DottedField";
 
 type FAQSectionProps = {
   intro: SectionIntro;
@@ -20,7 +21,8 @@ type FAQSectionProps = {
 export default function FAQSection({ intro, faqs, className }: FAQSectionProps) {
   if (faqs.length === 0) return null;
   return (
-    <section aria-labelledby="faqs-title" className={cn("section-y border-y border-border bg-elevated", className)}>
+    <section aria-labelledby="faqs-title" className={cn("relative isolate section-y border-y border-border bg-elevated", className)}>
+      <DottedField side="left" />
       <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
         <SectionHeading id="faqs-title" {...intro} className="lg:col-span-4" />
         <div className="lg:col-span-8">

@@ -12,7 +12,7 @@ import TruckSilhouette from "@/components/decor/TruckSilhouette";
 export default function WhyIndox() {
   return (
     <section aria-labelledby="why-title" className="relative isolate section-y">
-        <TruckSilhouette />
+        {/* <TruckSilhouette /> */}
       <div className="container-x">
         <SectionHeading id="why-title" {...whyIntro} />
         <ul className="mt-12 grid border-t border-border-strong sm:grid-cols-2 lg:grid-cols-3">

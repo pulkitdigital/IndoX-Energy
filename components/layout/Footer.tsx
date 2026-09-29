@@ -16,9 +16,10 @@ export default function Footer() {
 
   return (
     <footer className="relative isolate overflow-hidden border-t border-border bg-elevated pb-20 lg:pb-0">
-      <FooterTruck />
-      <div className="container-x grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8 lg:py-20">
-        <div className="sm:col-span-2 lg:col-span-4">
+      {/* Solid-ish accent hairline (the allowed blue → green → lime line) separating the footer from the page */}
+      <div aria-hidden="true" className="bg-flow-x absolute inset-x-0 top-0 h-0.5" />
+      <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10 lg:py-16">
+        <div className="sm:col-span-2 lg:col-span-3">
           <Logo />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">{brandBlurb}</p>
           <p className="mt-4 font-heading text-sm font-bold text-link">{company.tagline}</p>
@@ -34,11 +35,11 @@ export default function Footer() {
           <FooterColumn {...companyCol} />
         </div>
 
-        <div className="lg:col-span-2">
-          <h2 className="label-caps text-foreground">Contact</h2>
-          <ul className="mt-5 space-y-4 text-sm text-muted-foreground">
+        <div className="lg:col-span-3">
+          <h2 className="label-caps border-b border-border pb-3 text-foreground">Contact</h2>
+          <ul className="mt-4 space-y-4 text-sm text-muted-foreground">
             <li>
-              <ContactLink kind="call" location="footer" className="hv-group flex items-start gap-2.5 transition-colors duration-200 hover:text-foreground">
+              <ContactLink kind="call" location="footer" className="hv-group flex items-start gap-2.5 transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground focus-visible:translate-x-1 focus-visible:text-foreground motion-reduce:hover:translate-x-0">
                 <Phone className="hv-icon mt-0.5 size-4 shrink-0 text-accent" strokeWidth={1.5} aria-hidden="true" />
                 <span>
                   <span className="block text-xs">Toll-free</span>
@@ -47,13 +48,13 @@ export default function Footer() {
               </ContactLink>
             </li>
             <li>
-              <a href={mailHref} className="hv-group flex items-start gap-2.5 break-all transition-colors duration-200 hover:text-foreground">
+              <a href={mailHref} className="hv-group flex items-start gap-2.5 break-all transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground focus-visible:translate-x-1 focus-visible:text-foreground motion-reduce:hover:translate-x-0">
                 <Mail className="hv-icon mt-0.5 size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
                 {company.email}
               </a>
             </li>
             <li>
-              <ContactLink kind="whatsapp" location="footer" className="hv-group flex items-start gap-2.5 transition-colors duration-200 hover:text-foreground">
+              <ContactLink kind="whatsapp" location="footer" className="hv-group flex items-start gap-2.5 transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground focus-visible:translate-x-1 focus-visible:text-foreground motion-reduce:hover:translate-x-0">
                 <MessageCircle className="hv-icon mt-0.5 size-4 shrink-0 text-accent" strokeWidth={1.5} aria-hidden="true" />
                 WhatsApp
               </ContactLink>
@@ -67,6 +68,8 @@ export default function Footer() {
         </div>
       </div>
 
+      <FooterTruck />
+
       <div className="border-t border-border">
         <div className="container-x flex flex-col gap-4 py-6 text-xs text-muted-foreground lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -78,7 +81,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hv-link transition-colors duration-200 hover:text-foreground">
+              <Link key={link.href} href={link.href} className="hv-link inline-block transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground focus-visible:translate-x-1 focus-visible:text-foreground motion-reduce:hover:translate-x-0">
                 {link.label}
               </Link>
             ))}

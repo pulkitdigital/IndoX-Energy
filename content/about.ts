@@ -101,10 +101,10 @@ export const about = {
     caption: "FIG. A-05 — Safety fittings on an IndoX bowser",
     legendTitle: "What the markers show",
     callouts: [
-      { label: "Fire extinguisher", text: "Carried on board for quick access.", x: 24, y: 60 },
-      { label: "Hazmat panel", text: "Hazard identification panel for the product carried.", x: 47, y: 34 },
-      { label: "Metered dispensing unit", text: "Measures each fill delivered on site.", x: 66, y: 56 },
-      { label: "Valve box", text: "Houses the outlet valves, closed and secured in transit.", x: 82, y: 70 },
+      { label: "Fire extinguisher", text: "Carried on board for quick access.", x: 81, y: 37 },
+      { label: "Hazmat panel", text: "Hazard identification panel for the product carried.", x: 65, y: 18 },
+      { label: "Metered dispensing unit", text: "Measures each fill delivered on site.", x: 57, y: 50 },
+      { label: "Valve box", text: "Houses the outlet valves, closed and secured in transit.", x: 62, y: 78 },
     ] as AboutCallout[],
   },
 

@@ -28,14 +28,9 @@ function stopColor(i: number): string {
 }
 
 /**
- * Our Approach — vertical 6-step navigator (GSAP ScrollTrigger).
- * Left: a fixed-width column with the step dot on the connecting line and the large numeral. Right: icon, title and
- * one-line description. The line runs top to bottom through the dots and is drawn per segment: a segment fills
- * (downward) once its step has been passed, so the line reads as filled up to the ACTIVE step and neutral beyond it.
- * States: upcoming = outlined dot + outline numeral; current = solid ring, numeral scaled up with a soft ring that
- * pulses twice, brand-tinted row chip; passed = solid dot with a check. The active step changes with scroll
- * (ScrollTrigger progress → 6 equal segments) or on click; hover / focus / tap previews a step's detail panel.
- * Reduced motion: every step shown as reached, line fully filled, no pulse, no transitions.
+ * Our Approach — 6-step navigator (GSAP ScrollTrigger).
+ * Desktop (md+): left = step list, right = sticky image + details for the active step, both starting on the same top line.
+ * Mobile: detail opens in place under the tapped step.
  */
 export default function OurApproachFlow() {
   const reduceMotion = useReducedMotion();
@@ -83,8 +78,10 @@ export default function OurApproachFlow() {
       <div className="container-x">
         <SectionHeading id="approach-title" {...approachIntro} layout="split" />
 
-        <div className="mt-12 lg:mt-14">
-          <ol data-flow="list" className="relative max-w-5xl">
+        {/* 2 columns on md+; items-start so both columns begin on the same top line */}
+        <div className="mt-12 md:grid md:grid-cols-2 md:items-start md:gap-10 lg:mt-14 lg:gap-16">
+          {/* LEFT: step list */}
+          <ol data-flow="list" className="relative">
             {approachSteps.map((step, i) => {
               const isPassed = i < progress;
               const isCurrent = i === progress;
@@ -163,7 +160,8 @@ export default function OurApproachFlow() {
                       </span>
                     </span>
 
-                    <span className="pt-[14px] md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:items-baseline md:gap-6">
+                    {/* Title + one-liner stacked (half-width column has no room for a side-by-side row) */}
+                    <span className="pt-[14px]">
                       <span className="flex items-center gap-2">
                         <Icon name={step.icon} className={cn("size-4.5 shrink-0 transition-colors", isActive ? "text-accent" : "text-muted-foreground")} />
                         <span
@@ -175,7 +173,7 @@ export default function OurApproachFlow() {
                           {step.title}
                         </span>
                       </span>
-                      <span className="mt-1 block text-sm leading-snug text-muted-foreground md:mt-0 md:text-base">{step.line}</span>
+                      <span className="mt-1 block text-sm leading-snug text-muted-foreground">{step.line}</span>
                     </span>
                   </button>
 
@@ -199,8 +197,8 @@ export default function OurApproachFlow() {
             })}
           </ol>
 
-          {/* Desktop: shared detail panel for the active step */}
-          <div id="approach-detail" className="mt-12 hidden min-h-56 border-t border-border pt-10 md:block" aria-live="polite">
+          {/* RIGHT (md+): sticky panel. No margin, no border-top, so its top edge matches the list's top edge. */}
+          <div id="approach-detail" className="hidden md:sticky md:top-24 md:block" aria-live="polite">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={approachSteps[active].id}
