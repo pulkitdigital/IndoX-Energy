@@ -101,25 +101,27 @@ export const legalLinks: NavLink[] = [
 ];
 
 /**
- * Public routes for sitemap.xml — only routes that are BUILT. Add each route here when its phase ships
- * (a sitemap entry that 404s wastes crawl budget). /thank-you/ is noindex and never listed; 404 has no URL.
+ * Public routes for sitemap.xml — only routes that are BUILT (a sitemap entry that 404s wastes crawl budget).
+ * /thank-you/ is noindex and never listed; 404 has no URL.
  * Blog posts are appended in app/sitemap.ts (read at build time from content/blog/; this file stays client-safe).
- * Still to add: privacy, terms.
  */
 export const sitemapRoutes: string[] = [
   ROUTES.home,
-  // Phase 2 — products
+  // Products
   ROUTES.products,
   ...products.map((p) => productHref(p.slug)),
-  // Phase 3 — services
+  // Services
   ROUTES.services,
   ...services.map((s) => serviceHref(s.slug)),
-  // Phase 4 — company
+  // Company
   ROUTES.about,
   ROUTES.contact,
-  // Phase 5 — EV + End-to-End
+  // EV + End-to-End
   ROUTES.evCharging,
   ROUTES.endToEnd,
-  // Phase 6 — blog listing (articles added in app/sitemap.ts)
+  // Blog listing (articles added in app/sitemap.ts)
   ROUTES.blog,
+  // Legal
+  ROUTES.privacy,
+  ROUTES.terms,
 ];

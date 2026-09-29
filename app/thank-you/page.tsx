@@ -12,7 +12,6 @@ export function generateMetadata(): Metadata {
 /**
  * Thank-you (PRD §8.12) — noindex, never in the sitemap. The body is client-side (lead summary lives in
  * sessionStorage); posts are read at build time and passed down so related articles can match the request.
- * Blog routes ship in Phase 6: until then the article links 404, which is expected.
  */
 export default function ThankYouPage() {
   const posts = getAllPosts().map((post) => ({

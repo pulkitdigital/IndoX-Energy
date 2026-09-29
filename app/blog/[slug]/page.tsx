@@ -93,7 +93,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
       {/* TOC + body */}
       <section aria-label={post.title} className="pb-16 lg:pb-24">
-        <div className="container-x grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
+        <div className="container-x grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
           <aside className="lg:row-span-2">
             <TableOfContents headings={post.headings} />
           </aside>

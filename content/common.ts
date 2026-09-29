@@ -128,3 +128,14 @@ export function relatedCategoriesFor(topics: string[]): BlogCategory[] {
   const toSlug = (topic: string) => products.find((p) => p.name === topic)?.slug ?? services.find((s) => s.name === topic)?.slug ?? topic;
   return [...new Set(topics.flatMap((topic) => TOPIC_CATEGORIES[toSlug(topic)] ?? []))];
 }
+
+/** 404 page (PRD §8.14). */
+export const notFoundPage = {
+  seo: {
+    title: "Page not found | IndoX Energy",
+    description: "This page could not be found. Go back to the IndoX Energy home page, products, services or contact.",
+  },
+  eyebrow: "Page not found",
+  title: "This tank is empty.",
+  text: "The page you asked for is not here. It may have moved, or the link may be wrong. Try one of these instead.",
+};

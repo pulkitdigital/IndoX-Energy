@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "seo:audit": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/seo-audit.mjs",
     "images:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/images.mjs check",
     "images:readme": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/images.mjs readme",
-    "images:placeholders": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/images.mjs placeholders"
+    "images:placeholders": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/images.mjs placeholders",
+    "images:optimize": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/images.mjs optimize"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

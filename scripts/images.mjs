@@ -4,6 +4,7 @@
  *   node scripts/images.mjs check [--strict]   list missing files + dev placeholders still in place (--strict: exit 1 if any)
  *   node scripts/images.mjs readme             regenerate public/images/README.md
  *   node scripts/images.mjs placeholders       create labelled placeholder .webp files for MISSING slots only
+ *   node scripts/images.mjs optimize [--dry]   re-encode REAL photos that exceed the TRD §10 budget (hero <= 200KB, others <= 120KB)
  *
  * Placeholders carry an EXIF marker (PLACEHOLDER_MARK) so `check` can tell them apart from real photos;
  * dropping a real file over one removes the marker. Existing files are never overwritten.
@@ -150,11 +151,45 @@ async function placeholders() {
   console.log(created ? `\nCreated ${created} placeholder(s). They show up as PLACEHOLDER — FAKE in \`npm run images:check\`.` : "No missing slots; nothing created.");
 }
 
+/** TRD §10 weight budget (KB). Heroes and full-bleed backgrounds get the larger one. */
+const budgetKb = (slot) => (slot.folder === "home/hero" || /(^|-)hero($|-)|^cta-bg$/.test(slot.key) ? 200 : 120);
+const maxWidth = (slot) => (budgetKb(slot) === 200 ? 1600 : 1200);
+
+/**
+ * Re-encodes real (non-placeholder) photos that are over budget: caps the width, then lowers WebP quality
+ * until the file fits. Files already within budget are never touched. Needs `sharp` (devDependency).
+ */
+async function optimize(dry) {
+  const { default: sharp } = await import("sharp");
+  let touched = 0;
+  for (const slot of slots) {
+    const path = fileOf(slot);
+    if (!existsSync(path) || isPlaceholder(path)) continue;
+    const before = statSync(path).size;
+    const budget = budgetKb(slot) * 1024;
+    if (before <= budget) continue;
+    const input = readFileSync(path);
+    const meta = await sharp(input).metadata();
+    const width = Math.min(meta.width ?? maxWidth(slot), maxWidth(slot));
+    let best = null;
+    for (let quality = 80; quality >= 40; quality -= 5) {
+      best = await sharp(input).resize({ width, withoutEnlargement: true }).webp({ quality, effort: 6, alphaQuality: 80 }).toBuffer();
+      if (best.length <= budget) break;
+    }
+    const kb = (n) => `${Math.round(n / 1024)}KB`;
+    console.log(`${rel(path).padEnd(52)} ${kb(before).padStart(6)} -> ${kb(best.length).padStart(6)}${best.length > budget ? "  (still over budget)" : ""}`);
+    if (!dry) writeFileSync(path, best);
+    touched += 1;
+  }
+  console.log(`${touched} file(s) ${dry ? "would be " : ""}optimized.`);
+}
+
 const [command, ...flags] = process.argv.slice(2);
 if (command === "check") check(flags.includes("--strict"));
 else if (command === "readme") readme();
 else if (command === "placeholders") await placeholders();
+else if (command === "optimize") await optimize(flags.includes("--dry"));
 else {
-  console.error("Usage: node scripts/images.mjs <check [--strict] | readme | placeholders>");
+  console.error("Usage: node scripts/images.mjs <check [--strict] | readme | placeholders | optimize [--dry]>");
   process.exit(1);
 }

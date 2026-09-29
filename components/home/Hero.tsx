@@ -458,6 +458,7 @@ export default function Hero() {
         <Image
           src={images["indox-industrial-bg"].src}
           alt=""
+          aria-hidden="true"
           fill
           priority
           sizes="100vw"

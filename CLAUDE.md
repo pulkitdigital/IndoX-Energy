@@ -4,7 +4,7 @@ Read `docs/PRD.md` (v2) and `docs/TRD.md` (v2) first for full context before gen
 
 ## Project summary
 
-Static Next.js 15 (App Router) marketing + lead-gen website for IndoX Energy (fuel supply, storage tech, EV charging). 25 routes (PRD §5). **No backend, no database, no payment gateway.** Forms submit client-side to Web3Forms. Heavy emphasis on polished animation and a premium, non-generic visual feel — this is the #1 priority alongside correct content structure.
+Static Next.js 15 (App Router) marketing + lead-gen website for IndoX Energy (fuel supply, storage tech, EV charging). 25 PRD routes (§5): 28 sitemap URLs once the 6 blog articles are counted, plus `/thank-you/` and the 404. **No backend, no database, no payment gateway.** Forms submit client-side to Web3Forms. Heavy emphasis on polished animation and a premium, non-generic visual feel — this is the #1 priority alongside correct content structure.
 
 ## Tech stack (do not deviate without asking)
 
@@ -14,11 +14,12 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 
 - `components/layout/` — Header, MegaMenu, MobileNav, MobileActionBar, WhatsAppFloat, Footer, QuoteCTABand, TrustStrip, ComplianceLine, CookieNotice, Logo, ThemeToggle, ThemeProvider
 - `components/home/` — the Home sections (Hero, OurApproachFlow, ProductGrid, ServiceGrid, TechDashboardPreview, EVTeaser, IndustriesGrid, EndToEndTeaser, PanIndiaMap, WhyIndox, BlogPreview) + their helpers
-- `components/templates/` — `ProductPageTemplate`, `ServicePageTemplate`, `FAQSection` (Phase 2)
+- `components/templates/` — `ProductPageTemplate`, `ServicePageTemplate`, `FAQSection`, shared detail-page blocks
 - `components/forms/`, `components/animations/`, `components/analytics/`, `components/ui/`
 - `content/` — typed data: `products.ts`, `services.ts`, `about.ts`, `contact.ts`, `ev.ts`, `end-to-end.ts`, `packages.ts`, `blog-ui.ts`, `industries.ts`, `coverage.ts`, `company.ts`, `navigation.ts`, `images.ts`, `home.ts`, `common.ts`, `blog/*.mdx`
 - `lib/` — `fonts.ts` (Archivo + Inter), `motion.ts`, `seo.ts`, `blog.ts`, `slug.ts`, `format.ts`, `analytics.ts`, `consent.ts`, `icons.ts`, `utils.ts`
-- `scripts/images.mjs` — image tooling behind `npm run images:check | images:readme | images:placeholders` (reads `content/images.ts`)
+- `scripts/images.mjs` — image tooling behind `npm run images:check | images:readme | images:placeholders | images:optimize` (reads `content/images.ts`). `images:optimize` re-encodes only REAL photos that exceed the TRD §10 budget (hero ≤ 200KB, others ≤ 120KB); run it after dropping in new photos.
+- `scripts/seo-audit.mjs` — `npm run seo:audit` (after `npm run build`): crawls `out/` and fails on duplicate/missing title or description, not exactly one `<h1>`, `<img>` without alt (decorative = `alt=""` + `aria-hidden`), `#`/broken internal links or anchors, bad canonicals, missing/invalid JSON-LD per page type, sitemap ≠ 28 indexable pages, robots issues, missing 404.html / `ErrorDocument`. Run it before every release.
 
 ## Coding conventions
 
@@ -31,7 +32,7 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 - **No `any` types.** Type all content models and component props.
 - **No invented data.** Never fabricate stats, counters, client logos, testimonials, certifications, coverage or specs — leave a clearly marked `PLACEHOLDER` (and `PlaceholderBadge` in the UI) or omit the section, per PRD §9.
 
-## Product pages (Phase 2)
+## Product pages
 
 - `app/products/page.tsx` (overview) and `app/products/[slug]/page.tsx` (`generateStaticParams` over `content/products.ts`, `dynamicParams = false`). The `[slug]` page only builds metadata and renders `<ProductPageTemplate product={…} />` — no per-product JSX anywhere.
 - `components/templates/ProductPageTemplate.tsx` renders the 9 PRD §8.4 blocks in this order and nothing else: 1 Hero (Breadcrumbs, H1 = product name, `promise`, 4:3 `heroImage` in `FigureFrame`, "Enquire now" → `#enquire` + `MiniQuoteForm` pre-set to the product name) → `TrustStrip` → 2 Overview (`overviewTitle`, `overview`, 4:3 `detailImage`) → 3 Key features (card grid; spec table only when `specs` has client-confirmed values) → 4 Applications (chips) → 5 Related service card (`relatedServiceSlug` → `/services/[slug]/`) → 6 Safety & compliance line (`safetyNote` + link to `/about/#quality-safety`) → 7 `FAQSection` (Accordion + FAQPage JSON-LD) → 8 Other products (4 `ProductCard`s) → 9 `QuoteCTABand`. Section eyebrows are numbered 01–08 after the hero.
@@ -39,9 +40,9 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 - All copy lives on the `Product` object (`promise`, `overviewTitle`, `overview`, 6–8 `features`, `applications`, `safetyNote`, 4–6 `faqs`) and shared labels in `productPageCopy` / `productsOverview`. Product pages say WHAT is supplied/installed; service pages say HOW — never reuse a sentence between them. No invented specs, capacities, prices, stats, clients or certifications; keep "eligible customers" / "where applicable" / "subject to applicable regulations", and `ComplianceLine` under the hero, overview and features.
 - `/products/` uses `OverviewGrid` (identical `ProductCard`s, 4:3, 3 + 2 desktop / 2 tablet / 1 mobile, CTA "Explore") and the "Products + services together" ruled list.
 - Shared building blocks built once for all later templates: `components/layout/Breadcrumbs.tsx`, `components/templates/FAQSection.tsx`, `components/ui/accordion.tsx` (Base UI; panels stay mounted so answers are in the static HTML), `components/templates/OverviewGrid.tsx`.
-- `sitemapRoutes` (content/navigation.ts) lists only routes that are built; add each route when its phase ships.
+- `sitemapRoutes` (content/navigation.ts) lists only routes that are built; add every new public route there (28 today: 22 content pages incl. 6 articles, plus Privacy and Terms; `/thank-you/` and the 404 are never listed).
 
-## Service pages (Phase 3)
+## Service pages
 
 - `app/services/page.tsx` (overview) and `app/services/[slug]/page.tsx` (`generateStaticParams` over `content/services.ts`, `dynamicParams = false`); the `[slug]` page only builds metadata and renders `<ServicePageTemplate service={…} />`.
 - `components/templates/ServicePageTemplate.tsx` renders the 10 PRD §8.6 blocks in order: 1 Hero (`DetailHero`: breadcrumbs, name, `promise`, 4:3 `heroImage`, "Get a Quote" → `#enquire`, `MiniQuoteForm` pre-set to the service name) → `TrustStrip` → 2 The problem (exactly 3, numbered, ruled columns) → 3 What we do (`FeatureGrid`, 4–6) → 4 How it works (`ProcessStrip`: step titles exactly as the PRD table + one line each; accent lines draw in order with a one-shot GSAP ScrollTrigger, no pin; horizontal ≥640px, vertical rail below; reduced motion = fully drawn) + `ComplianceLine` → 5 Benefits (3–4 equal cards) → 6 Who it's for (`ChipList` of industry names from `industries`) → 7 Related product (`RelatedCard` → `/products/[slug]/`) → 8 `FAQSection` → 9 Other services (3 `ProductCard`s, same group first) → 10 `QuoteCTABand`. Eyebrows 01–08 after the hero.
@@ -51,7 +52,7 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 - Product ↔ service links must match the PRD tables both ways (`relatedServiceSlug` / `relatedProductSlug`).
 - Shared detail-page blocks (used by both templates, never copy-pasted): `DetailHero`, `FeatureGrid`, `ChipList`, `RelatedCard`, `FAQSection`, `ProcessStrip`, `OverviewGrid` in `components/templates/`; cards are always `components/home/ProductCard.tsx`.
 
-## About, Contact, Thank-you (Phase 4)
+## About, Contact, Thank-you
 
 - **Placeholder policy (all pages):** never invent people, licences, numbers, addresses, response times, years, fleet sizes, clients or certifications. Company facts live only in `content/company.ts` (`cin`, `gstin`, `address`, `mapUrl`, `leadership`, `licences`, `RESPONSE_HOURS`, `COMPANY_PROFILE_PDF`). Empty register facts render a `PlaceholderBadge` ("To be added"); empty lists hide their section; an empty callback time falls back to "Our team will call you back shortly."
 - **/about/** (`app/about/page.tsx`, copy in `content/about.ts`, sections in `components/about/`): Hero → Our story → `VisionMission` → `CoreValues` → `Leadership` → `QualitySafety` (`id="quality-safety"`, target of every product page's safety link) → `Licences` → `Commitment` → `CompanyProfileTable` → `QuoteCTABand`. `Leadership` and `Licences` return `null` while their arrays are empty; the page numbers only the sections actually shown (components take an `index` prop). The company-profile PDF button renders only if the file exists in `public/` at build time. Story / vision / mission / values / commitment copy is a DRAFT derived from the PRD: replace it with client text, don't embellish it.
@@ -61,7 +62,7 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 - **QuoteFormFull**: 2 steps exactly per PRD §8.11 (schema `quoteFullSchema`, per-step fields `QUOTE_STEP_FIELDS`), per-step validation before Next, Back keeps values, focus moves to the step heading, Enter on step 1 = Next. Option lists (`solutionOptions`, `productOptions`, `volumeOptions`, `industryOptions`) live in `content/contact.ts`. Failure UI for every form is `components/forms/SubmitFailure.tsx`; input styles come from `components/forms/fieldStyles.ts`.
 - **/thank-you/** (noindex, not in the sitemap): `ThankYouContent` reads the `LeadSummary` that `submitForm` stores in sessionStorage (name, requirement, city, topics); direct visits get the generic text. 3 next steps via `ProcessStrip`, WhatsApp (pre-filled via `CtaLink contact.message`) + call buttons, 2 related posts (`relatedCategoriesFor(topics)`, else the first 2) as `components/blog/BlogCard.tsx`. Backup conversion = `trackEvent("lead_submit", { source: "thank_you_page" })`, only with consent, only after a real submit, once per lead (`CONVERSION_FIRED_KEY`, cleared by `submitForm`).
 
-## EV Charging and End-to-End (Phase 5)
+## EV Charging and End-to-End
 
 - **/ev-charging/** (`app/ev-charging/page.tsx`, copy in `content/ev.ts`, sections in `components/ev/`): `DetailHero` (16:9 `ev-hero`, "Book a Site Survey" → `quoteHref({ service: "ev-charging" })`, MiniQuoteForm pre-set to "EV Charging Solutions") → `EVSolutions` (shared `FeatureGrid`) → `EVProcess` (shared `ProcessStrip`, 6 steps, line draw, no pin) → `EVLocations` (8 identical icon tiles, no images) → `ACvsDCTable` → `FAQSection` → `QuoteCTABand` with `copy={ev.cta}` ("Host an IndoX charger."), `solid`, `whatsapp={false}`. Service + FAQPage + BreadcrumbList JSON-LD.
 - **EV comparison is qualitative only**: slower / faster, long stay / quick top-up, typical locations and dwell time. Never kW ratings, charging times, prices, connector counts, subsidies, savings or ROI. `ACvsDCTable` is a real `<table>` (caption, `scope="col"`/`"row"`) inside its own `overflow-x-auto` region (`min-w`), so only the table scrolls on mobile. Keep "subject to site conditions, approvals and applicable regulations" on installation claims.
@@ -71,7 +72,7 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 - **PackageSelector** (client only): ALL recommendation logic lives in `content/packages.ts` — the `needs` list (label, category, quote-form `service`, optional `product`) and the ordered `rules` table (first match wins: EV + anything → Integrated; 3+ needs across categories → Integrated; supply-only → Supply; monitoring-only → Technology; storage/dispensing (± monitoring) → Infrastructure; EV-only → Infrastructure; otherwise Integrated). The component only renders `recommend(selected)`: native checkboxes, `aria-live` announcement, "Request a quote for this" (deep link with every selected need's service, plus `end-to-end` for Integrated), Reset, neutral prompt when nothing is selected.
 - `QuoteCTABand` accepts optional `copy`, `solid` and `whatsapp` props; `DetailHero` accepts optional `ctaHref` and `imageAspect` — defaults keep every existing page unchanged.
 
-## Blog (Phase 6)
+## Blog
 
 - **MDX pipeline:** one file per article in `content/blog/<slug>.mdx` (file name = `slug`, enforced). Frontmatter = `PostFrontmatter` (TRD §4): title, slug, excerpt, category (from `BLOG_CATEGORIES`), ISO date, author `{ name: "IndoX Energy Team", role: "Editorial" }` (no personal names or photos), heroImage (an existing 16:9 `blog/` slot), `relatedLink { label, href }` to a real page, `featured: true` on exactly one post. `lib/blog.ts` reads and validates them at build time (fs + gray-matter), computes `readingMinutes` (words ÷ 200) and the H2/H3 `headings`; `components/blog/ArticleBody.tsx` renders with `next-mdx-remote/rsc` + `remark-gfm` (tables, `- [ ]` checklists). `app/blog/[slug]/page.tsx`: `generateStaticParams` over all posts, `dynamicParams = false`. Articles are appended to the sitemap in `app/sitemap.ts` (not `navigation.ts`, which must stay client-safe).
 - **Writing rules:** ~800–1100 words, intro → 4–6 H2 sections (H3 inside) → at least one table / checklist / `<Callout>` / `<PullQuote>` → short close. No invented statistics, percentages, prices, savings, studies, regulation numbers or client stories; keep general facts qualitative and hedged. Safety content is general good practice that defers to applicable rules and the site's safety officer — never promise compliance or safety outcomes. Fuel grades: no spec numbers, always "confirm with the equipment manufacturer". EV: no kW, price or subsidy numbers. Mention IndoX only in the closing line (the in-article CTA is automatic).
@@ -80,6 +81,14 @@ Next.js 15 (App Router) + TypeScript (strict) + **Tailwind CSS v4** (CSS-first, 
 - **Listing (`/blog/`):** `BlogGrid` (client) does search, category chips (All + every category, empty ones included with an empty state), the featured card (default view only), a 3/2/1-column grid of identical `BlogCard`s (16:9, 2-line excerpt, read time, date) and pagination after 9 (hidden otherwise). Filter state lives in the URL (`?q=&category=&page=`, `history.replaceState`), SSR renders the unfiltered first page.
 - **NewsletterForm** (`components/forms/NewsletterForm.tsx`): email only, `newsletterSchema`, `submitForm({ form: "newsletter" })` — newsletter signups never fire `lead_submit` and never touch the thank-you summary. Inline success / failure (failure keeps the email).
 - **Share links exception:** `ShareBar`'s LinkedIn / WhatsApp links are reader SHARE links (`wa.me/?text=` with no number), not IndoX contact links, so they are plain anchors without call/WhatsApp tracking. Every link that contacts IndoX still goes through `ContactLink` / `CtaLink contact`.
+
+## Legal pages and 404
+
+- **/privacy/** and **/terms/** (`app/privacy/page.tsx`, `app/terms/page.tsx`, copy in `content/legal.ts`, shared body `components/legal/LegalDocument.tsx` with the blog's `TableOfContents`). No QuoteCTABand. Sitemap: yes.
+- **DRAFT BANNER — MUST NOT GO LIVE UNREVIEWED.** Both pages show `components/legal/DraftBanner.tsx` (text `LEGAL_DRAFT_NOTICE`: "Draft for legal review — not yet approved by IndoX Energy's legal adviser. Do not treat as final.") at the top and bottom. Remove it ONLY after the client confirms in writing that their legal adviser approved the text. Do not launch the production site while it is still there, and never delete it on your own initiative.
+- Never invent legal facts: no retention period (the Privacy copy says it will be confirmed by the legal adviser), no court city/state (Terms use a `[PLACEHOLDER: …]` line), no registration numbers, no "last updated" date. Contact details come from `content/company.ts` only.
+- The Privacy "Third-party services" and cookie text are built from `lib/integrations.ts`, which reads the same `NEXT_PUBLIC_*` env vars as `Analytics.tsx` and `submitForm.ts`. Web3Forms / GA4 / Google Ads / Meta Pixel are named only when their variable is set for the build, so re-check the page after changing env vars or adding a tool.
+- **404** (`app/not-found.tsx`, copy `notFoundPage` in `content/common.ts`, illustration `components/layout/EmptyGauge.tsx`): static export writes `out/404.html`; `public/.htaccess` has `ErrorDocument 404 /404.html`. No canonical, noindex. The gauge is drawn in code with theme tokens (no text or logo inside the SVG).
 
 ## Animation rules
 

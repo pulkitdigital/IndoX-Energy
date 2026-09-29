@@ -143,7 +143,7 @@ export default function OurApproachFlow() {
                         </span>
                       </span>
 
-                      <span className={cn("mt-5 flex items-center gap-2 transition-opacity duration-500", isReached || isActive ? "opacity-100" : "opacity-45")}>
+                      <span className={cn("mt-5 flex items-center gap-2 transition-opacity duration-500", isReached || isActive ? "opacity-100" : "opacity-55")}>
                         <Icon name={step.icon} className={cn("size-4.5 transition-colors", isActive ? "text-accent" : "text-muted-foreground")} />
                         <span className="font-heading text-lg font-bold lg:text-xl">{step.title}</span>
                       </span>
