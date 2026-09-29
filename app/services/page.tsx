@@ -17,6 +17,7 @@ import CtaLink from "@/components/ui/CtaLink";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import DottedField from "@/components/decor/DottedField";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({ ...copy.seo, path: ROUTES.services });
@@ -91,7 +92,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section aria-labelledby="services-products-title" className="section-y">
+      <section aria-labelledby="services-products-title" className="relative isolate section-y">
+        <DottedField side="left" />
         <div className="container-x">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeading id="services-products-title" index={copy.products.index} eyebrow={copy.products.eyebrow} title={copy.products.title} />

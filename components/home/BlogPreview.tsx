@@ -7,6 +7,7 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CtaLink from "@/components/ui/CtaLink";
 import ImageSlot from "@/components/ui/ImageSlot";
+import { REVEAL } from "@/lib/motion";
 
 const formatDate = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
 
@@ -51,7 +52,7 @@ export default function BlogPreview() {
         <ul className="mt-14 grid auto-rows-fr gap-4 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post, i) => (
             <li key={post.slug}>
-              <ScrollReveal delay={i * 0.08} className="h-full">
+              <ScrollReveal delay={i * REVEAL.stagger} className="h-full">
                 <Link href={blogHref(post.slug)} data-cursor="view" className="hv-card flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card">
                   <div className="relative aspect-[16/9] shrink-0 overflow-hidden border-b border-border">
                     <ImageSlot slot={post.heroImage} fill framed={false} />

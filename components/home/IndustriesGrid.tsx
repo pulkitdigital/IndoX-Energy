@@ -4,6 +4,7 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Icon from "@/components/ui/Icon";
 import ImageSlot from "@/components/ui/ImageSlot";
+import { REVEAL } from "@/lib/motion";
 
 /**
  * Industries We Serve — image-led grid of identical tiles: fixed 4:3 image box (object-cover) and equal tile heights.
@@ -22,8 +23,8 @@ export default function IndustriesGrid() {
           {industries.map((industry, i) => {
             return (
               <li key={industry.slug}>
-                <ScrollReveal delay={(i % 4) * 0.05} className="hv-group h-full">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-border">
+                <ScrollReveal delay={(i % 4) * REVEAL.stagger} className="hv-group h-full">
+                  <div className="hv-frame relative aspect-[4/3] overflow-hidden rounded-md border border-border">
                     <ImageSlot slot={industry.image} fill framed={false} />
                     <div aria-hidden="true" className="hv-bar hv-fine-only absolute inset-x-0 bottom-0 border-t border-border bg-background/90 px-4 py-3.5">
                       <p className="font-heading text-[0.9375rem] font-bold">{industry.name}</p>

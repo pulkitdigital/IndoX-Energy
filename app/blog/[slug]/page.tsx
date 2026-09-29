@@ -20,6 +20,7 @@ import FigureFrame from "@/components/ui/FigureFrame";
 import ImageSlot from "@/components/ui/ImageSlot";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
+import DottedField from "@/components/decor/DottedField";
 
 /** Article template (PRD §8.10). Every post is known at build time. */
 export const dynamicParams = false;
@@ -68,7 +69,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
             ]}
           />
           <ScrollReveal className="mt-10 max-w-4xl">
-            <p className="label-caps text-accent">{post.category}</p>
+            <p className="label-caps text-link">{post.category}</p>
             <h1 id="article-title" className="text-section mt-4">
               {post.title}
             </h1>
@@ -92,7 +93,8 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
       </section>
 
       {/* TOC + body */}
-      <section aria-label={post.title} className="pb-16 lg:pb-24">
+      <section aria-label={post.title} className="relative isolate pb-16 lg:pb-24">
+        <DottedField side="right" />
         <div className="container-x grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
           <aside className="lg:row-span-2">
             <TableOfContents headings={post.headings} />

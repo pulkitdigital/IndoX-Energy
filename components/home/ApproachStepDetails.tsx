@@ -8,7 +8,7 @@ export default function ApproachStepDetails({ step, index }: { step: ApproachSte
   return (
     <div className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:items-start md:gap-12">
       <FigureFrame caption={`FIG. 02.${n} — ${step.title}`} className="max-w-md">
-        <ImageSlot slot={step.image} framed={false} reveal={false} />
+        <ImageSlot slot={step.image} framed={false} />
       </FigureFrame>
       <div>
         <p className="label-caps text-muted-foreground">

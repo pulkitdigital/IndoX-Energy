@@ -9,7 +9,7 @@ export default function InArticleCTA({ href, label }: { href: string; label: str
     <aside className="my-12">
       <Link href={href} className="hv-card group flex flex-col gap-4 rounded-lg border border-border bg-elevated p-6 sm:flex-row sm:items-center sm:justify-between">
         <span>
-          <span className="label-caps block text-accent">{cta.eyebrow}</span>
+          <span className="label-caps block text-link">{cta.eyebrow}</span>
           <span className="mt-2 block font-heading text-xl font-bold text-heading">{label}</span>
           <span className="mt-1 block text-[0.9375rem] text-muted-foreground">{cta.text}</span>
         </span>

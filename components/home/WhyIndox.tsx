@@ -3,6 +3,7 @@ import { REVEAL } from "@/lib/motion";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Icon from "@/components/ui/Icon";
+import TruckSilhouette from "@/components/decor/TruckSilhouette";
 
 /**
  * Why IndoX Energy — 6 points (PRD §8.1 titles) in a 3×2 grid separated only by 1px lines. No cards, no icon tiles:
@@ -10,7 +11,8 @@ import Icon from "@/components/ui/Icon";
  */
 export default function WhyIndox() {
   return (
-    <section aria-labelledby="why-title" className="section-y">
+    <section aria-labelledby="why-title" className="relative isolate section-y">
+        <TruckSilhouette />
       <div className="container-x">
         <SectionHeading id="why-title" {...whyIntro} />
         <ul className="mt-12 grid border-t border-border-strong sm:grid-cols-2 lg:grid-cols-3">

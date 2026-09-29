@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { EASE_OUT } from "@/lib/motion";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,7 @@ type ThemeToggleProps = {
  */
 export default function ThemeToggle({ className, variant = "icon" }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme();
+  const reduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -66,7 +68,14 @@ export default function ThemeToggle({ className, variant = "icon" }: ThemeToggle
       <span className="hv-toggle-icon grid size-4 place-items-center" aria-hidden="true">
         <AnimatePresence mode="wait" initial={false}>
           {mounted ? (
-            <motion.span key={isDark ? "sun" : "moon"} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.12 }}>
+            <motion.span
+              key={isDark ? "sun" : "moon"}
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: -90, scale: 0.5 }}
+              animate={{ opacity: 1, rotate: 0, scale: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: 90, scale: 0.5 }}
+              transition={{ duration: 0.22, ease: EASE_OUT }}
+              className="block"
+            >
               <IconComponent className="size-4" strokeWidth={1.5} />
             </motion.span>
           ) : null}

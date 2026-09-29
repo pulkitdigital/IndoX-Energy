@@ -5,6 +5,7 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { REVEAL } from "@/lib/motion";
 
 type FAQSectionProps = {
   intro: SectionIntro;
@@ -22,16 +23,18 @@ export default function FAQSection({ intro, faqs, className }: FAQSectionProps) 
     <section aria-labelledby="faqs-title" className={cn("section-y border-y border-border bg-elevated", className)}>
       <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
         <SectionHeading id="faqs-title" {...intro} className="lg:col-span-4" />
-        <ScrollReveal className="lg:col-span-8">
+        <div className="lg:col-span-8">
           <Accordion>
-            {faqs.map((faq) => (
-              <AccordionItem key={faq.q} value={faq.q}>
-                <AccordionTrigger>{faq.q}</AccordionTrigger>
-                <AccordionContent>{faq.a}</AccordionContent>
-              </AccordionItem>
+            {faqs.map((faq, i) => (
+              <ScrollReveal key={faq.q} delay={i * REVEAL.stagger} y={16}>
+                <AccordionItem value={faq.q}>
+                  <AccordionTrigger>{faq.q}</AccordionTrigger>
+                  <AccordionContent>{faq.a}</AccordionContent>
+                </AccordionItem>
+              </ScrollReveal>
             ))}
           </Accordion>
-        </ScrollReveal>
+        </div>
       </div>
       <JsonLd data={faqPageJsonLd(faqs)} />
     </section>

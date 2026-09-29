@@ -3,12 +3,14 @@ import { about } from "@/content/about";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import GridLines from "@/components/decor/GridLines";
 
 /** Vision & Mission — two equal cards side by side (stacked on mobile). */
 export default function VisionMission({ index }: { index: string }) {
   const { eyebrow, title, cards } = about.visionMission;
   return (
-    <section aria-labelledby="vision-title" className="section-y border-y border-border bg-elevated">
+    <section aria-labelledby="vision-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <GridLines side="right" />
       <div className="container-x">
         <SectionHeading id="vision-title" index={index} eyebrow={eyebrow} title={title} />
         <ul className="mt-12 grid auto-rows-fr gap-4 md:grid-cols-2">

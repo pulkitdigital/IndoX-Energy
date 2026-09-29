@@ -2,6 +2,7 @@ import { ev } from "@/content/ev";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import ImageSlot from "@/components/ui/ImageSlot";
 import SectionHeading from "@/components/ui/SectionHeading";
+import GridLines from "@/components/decor/GridLines";
 
 /**
  * AC vs DC comparison (PRD §8.7 section 5). A real <table> (caption, scope="col"/"row"); qualitative wording only —
@@ -12,7 +13,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 export default function ACvsDCTable({ index }: { index: string }) {
   const t = ev.acdc;
   return (
-    <section aria-labelledby="ev-acdc-title" className="section-y">
+    <section aria-labelledby="ev-acdc-title" className="relative isolate section-y">
+        <GridLines side="left" />
       <div className="container-x">
         <SectionHeading id="ev-acdc-title" index={index} eyebrow={t.eyebrow} title={t.title} description={t.description} layout="split" />
         <ScrollReveal className="mt-12">

@@ -3,6 +3,7 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import ComplianceLine from "@/components/layout/ComplianceLine";
 import ProcessStrip from "@/components/templates/ProcessStrip";
 import SectionHeading from "@/components/ui/SectionHeading";
+import RouteLine from "@/components/decor/RouteLine";
 
 /**
  * How it works (PRD §8.7 section 3): Site Survey → … → AMC. Reuses ProcessStrip: accent lines draw in step order
@@ -11,7 +12,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 export default function EVProcess({ index }: { index: string }) {
   const { eyebrow, title, steps, stepLabel } = ev.process;
   return (
-    <section aria-labelledby="ev-process-title" className="section-y">
+    <section aria-labelledby="ev-process-title" className="relative isolate section-y">
+        <RouteLine/>
       <div className="container-x">
         <SectionHeading id="ev-process-title" index={index} eyebrow={eyebrow} title={title} />
         <ScrollReveal className="mt-14">

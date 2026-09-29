@@ -78,9 +78,9 @@ export default function Header() {
         ? "text-foreground hover:text-foreground focus-visible:text-foreground"
         : "text-muted-foreground hover:text-foreground focus-visible:text-foreground"
       : active
-        ? "text-white hover:text-white focus-visible:text-white"
-        : "text-white/75 hover:text-white focus-visible:text-white";
-  const iconBorderClass = solid ? "border-border text-foreground" : "border-white/30 text-white";
+        ? "text-foreground hover:text-foreground focus-visible:text-foreground"
+        : "text-foreground/75 hover:text-foreground focus-visible:text-foreground";
+  const iconBorderClass = solid ? "border-border text-foreground" : "border-foreground/30 text-foreground";
 
   return (
     <>
@@ -139,10 +139,10 @@ export default function Header() {
               >
                 <Phone className="hv-icon-rot size-4 text-accent" strokeWidth={1.5} aria-hidden="true" />
                 <span className="leading-tight whitespace-nowrap">
-                  <span className={cn("label-caps block transition-colors duration-500", solid ? "text-muted-foreground" : "text-white/70")}>
+                  <span className={cn("label-caps block transition-colors duration-500", solid ? "text-muted-foreground" : "text-foreground/70")}>
                     Toll-free
                   </span>
-                  <span className={cn("hv-accent font-heading text-sm font-bold transition-colors duration-500", solid ? "text-foreground" : "text-white")}>
+                  <span className={cn("hv-accent font-heading text-sm font-bold transition-colors duration-500", solid ? "text-foreground" : "text-foreground")}>
                     {company.tollFree}
                   </span>
                 </span>

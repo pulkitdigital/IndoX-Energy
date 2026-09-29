@@ -14,7 +14,7 @@ export default function FeaturedPost({ post }: { post: BlogCardPost }) {
       </div>
       <div className="flex flex-col p-6 sm:p-8">
         <p className="label-caps flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground">
-          <span className="text-accent">{blogIndex.featured}</span>
+          <span className="text-link">{blogIndex.featured}</span>
           <span aria-hidden="true">/</span>
           <span className="text-foreground">{post.category}</span>
           <span aria-hidden="true">/</span>

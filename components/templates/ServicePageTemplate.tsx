@@ -20,6 +20,8 @@ import RelatedCard from "@/components/templates/RelatedCard";
 import CtaLink from "@/components/ui/CtaLink";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
+import RouteLine from "@/components/decor/RouteLine";
+import DottedField from "@/components/decor/DottedField";
 
 /** Three other services: same group first, then catalogue order. */
 function otherServices(current: Service): Service[] {
@@ -92,7 +94,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
       </section>
 
       {/* 4 — How it works */}
-      <section aria-labelledby="how-title" className="section-y">
+      <section aria-labelledby="how-title" className="relative isolate section-y">
+        <RouteLine/>
         <div className="container-x">
           <SectionHeading id="how-title" index="03" eyebrow={copy.howItWorks.eyebrow} title={copy.howItWorks.title} />
           <ScrollReveal className="mt-14">
@@ -121,7 +124,8 @@ export default function ServicePageTemplate({ service }: { service: Service }) {
       </section>
 
       {/* 6 — Who it's for */}
-      <section aria-labelledby="who-title" className="section-y">
+      <section aria-labelledby="who-title" className="relative isolate section-y">
+        <DottedField side="right" />
         <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
           <SectionHeading id="who-title" index="05" eyebrow={copy.who.eyebrow} title={copy.who.title} className="lg:col-span-5" />
           <ChipList items={industryNames} className="lg:col-span-7 lg:pt-14" />

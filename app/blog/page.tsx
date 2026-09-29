@@ -10,6 +10,7 @@ import BlogGrid, { type GridPost } from "@/components/blog/BlogGrid";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeading from "@/components/ui/SectionHeading";
+import DottedField from "@/components/decor/DottedField";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({ ...blogIndex.seo, path: ROUTES.blog });
@@ -55,7 +56,8 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section aria-labelledby="newsletter-title" className="section-y border-y border-border bg-elevated">
+      <section aria-labelledby="newsletter-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <DottedField side="right" />
         <div className="container-x grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
           <SectionHeading
             id="newsletter-title"

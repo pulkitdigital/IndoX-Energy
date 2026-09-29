@@ -24,15 +24,27 @@ export const MQ = {
 
 export const REVEAL = {
   /** ScrollReveal fade + rise. */
-  duration: 0.7,
-  y: 24,
+  duration: 0.55,
+  y: 28,
   /** Stagger step for grid items. */
-  stagger: 0.06,
+  stagger: 0.07,
   /** Heading accent underline draw-in. */
   underlineDuration: 0.6,
   underlineDelay: 0.2,
-  /** Image wipe, left → right (a transform-only cover panel). */
-  imageWipeDuration: 0.9,
+} as const;
+
+/** Image entrance (ImageSlot): settles from scaled-up + blurred + transparent, then accent corner brackets draw in. */
+export const IMAGE_IN = {
+  duration: 0.65,
+  scaleFrom: 1.08,
+  blurPx: 5,
+  /** Corner brackets start after the image has settled. */
+  bracketDelay: 0.7,
+  bracketDuration: 0.35,
+  bracketStagger: 0.06,
+  /** Bracket arm length (px) and inset from the frame (px). */
+  bracketSize: 18,
+  bracketInset: 10,
 } as const;
 
 export const HERO = {
@@ -91,6 +103,9 @@ export const APPROACH = {
   scrub: 0.6,
   /** Step state cross-fade. */
   stepFade: 0.4,
+  /** Soft ring around the current numeral: pulses this many times, then rests. */
+  pulseSeconds: 0.9,
+  pulseCount: 2,
 } as const;
 
 /** End-to-End ecosystem flow: the line scrubs with scroll (no pin) and nodes activate as it reaches them. */
@@ -106,7 +121,7 @@ export const PARALLAX = {
 } as const;
 
 export const HOVER = {
-  cardLift: -4,
+  cardLift: -6,
   /** Max product-card tilt in degrees (desktop fine pointer only). */
   tiltMaxDeg: 4,
   tiltSpring: { stiffness: 200, damping: 20 },
@@ -126,9 +141,9 @@ export const HOVER_CSS = {
   durationMs: 200,
   ease: "cubic-bezier(0.22, 1, 0.36, 1)",
   /** Card lift (px, negative = up). */
-  cardLiftPx: -4,
+  cardLiftPx: -6,
   /** Button / chip lift (px). */
-  smallLiftPx: -1,
+  smallLiftPx: -2,
   /** Image zoom inside a hovered card. */
   imageZoom: 1.05,
   /** Arrow nudge inside buttons / links (px). */

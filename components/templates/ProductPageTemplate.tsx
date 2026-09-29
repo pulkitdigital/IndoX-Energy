@@ -22,6 +22,7 @@ import FigureFrame from "@/components/ui/FigureFrame";
 import ImageSlot from "@/components/ui/ImageSlot";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
+import DottedField from "@/components/decor/DottedField";
 
 /**
  * The one template behind all 5 product pages (PRD §8.4, 9 blocks, in order):
@@ -104,7 +105,8 @@ export default function ProductPageTemplate({ product }: { product: Product }) {
       </section>
 
       {/* 4 — Applications */}
-      <section aria-labelledby="applications-title" className="section-y">
+      <section aria-labelledby="applications-title" className="relative isolate section-y">
+        <DottedField side="left" />
         <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
           <SectionHeading id="applications-title" index="03" eyebrow={copy.applications.eyebrow} title={copy.applications.title} className="lg:col-span-5" />
           <ChipList items={product.applications} className="lg:col-span-7 lg:pt-14" />

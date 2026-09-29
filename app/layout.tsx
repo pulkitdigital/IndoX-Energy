@@ -36,7 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-IN" className={`dark ${fontClassName}`} style={htmlStyle} suppressHydrationWarning>
       <body>
         <noscript>
-          <style>{"[data-hero-item]{opacity:1!important}[data-image-slot]{opacity:1!important}[data-image-wipe]{display:none!important}"}</style>
+          <style>{"[data-hero-item]{opacity:1!important}[data-image-slot]{opacity:1!important}[data-image-reveal]{opacity:1!important;transform:none!important;filter:none!important}[data-flow=cover]{transform:scale(0)!important}"}</style>
         </noscript>
         <a
           href="#main"

@@ -18,6 +18,7 @@ import ImageSlot from "@/components/ui/ImageSlot";
 import PlaceholderBadge from "@/components/ui/PlaceholderBadge";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/seo/JsonLd";
+import RouteLine from "@/components/decor/RouteLine";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({ ...contact.seo, path: ROUTES.contact });
@@ -117,7 +118,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section aria-labelledby="coverage-title" className="section-y border-y border-border bg-elevated">
+      <section aria-labelledby="coverage-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <RouteLine/>
         <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
           <SectionHeading id="coverage-title" index={coverage.index} eyebrow={coverage.eyebrow} title={coverage.title} description={coverage.description} className="lg:col-span-5" />
           <ScrollReveal className="lg:col-span-7 lg:pt-12">

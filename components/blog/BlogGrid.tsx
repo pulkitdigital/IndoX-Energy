@@ -79,7 +79,7 @@ export default function BlogGrid({ posts, categories }: { posts: GridPost[]; cat
   const chip = (active: boolean) =>
     cn(
       "hv-chip inline-flex h-10 items-center gap-2 rounded-md border px-4 text-sm font-medium",
-      active ? "border-accent bg-card text-foreground" : "border-border bg-background text-muted-foreground",
+      active ? "border-primary bg-primary text-primary-foreground hover:bg-primary" : "border-border bg-background text-muted-foreground hover:text-foreground",
     );
 
   return (

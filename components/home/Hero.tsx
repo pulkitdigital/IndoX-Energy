@@ -440,7 +440,7 @@ export default function Hero() {
         isolate
         min-h-0
         overflow-hidden
-        bg-[#061a31]
+        bg-background
         pt-24
         sm:pt-28
         lg:min-h-[820px]
@@ -473,28 +473,25 @@ export default function Hero() {
           OVERLAYS (gradients lightened)
       ====================================================== */}
 
-      {/* Base dark overlay */}
+      {/* Base overlay: navy in dark mode, pale wash in light mode (tokens in app/globals.css) */}
       <div
         aria-hidden="true"
         className="
           absolute
           inset-0
           -z-20
-          bg-[#061a31]/35
+          hero-scrim-base
         "
       />
 
-      {/* Darkness behind left text — enough to keep copy readable */}
+      {/* Scrim behind the left text: dark navy in dark mode, near-white in light mode */}
       <div
         aria-hidden="true"
         className="
           absolute
           inset-0
           -z-20
-          bg-gradient-to-r
-          from-[#03162b]/88
-          via-[#05264a]/58
-          to-[#05264a]/10
+          hero-scrim-side
         "
       />
 
@@ -507,9 +504,7 @@ export default function Hero() {
           bottom-0
           -z-20
           h-[42%]
-          bg-gradient-to-t
-          from-[#020f1d]/75
-          to-transparent
+          hero-scrim-bottom
         "
       />
 
@@ -556,8 +551,6 @@ export default function Hero() {
           >
             <Eyebrow
               index="00"
-              tone="onDark"
-              className="text-white/50"
               label={hero.eyebrow}
             />
 
@@ -567,7 +560,7 @@ export default function Hero() {
                 relative
                 size-4
                 shrink-0
-                text-[#68c448]
+                text-accent
               "
             >
               {CHEVRONS.map((i) => (
@@ -609,8 +602,8 @@ export default function Hero() {
               font-bold
               leading-[1.05]
               tracking-[-0.03em]
-              text-white
-              [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]
+              text-heading
+              hero-text-shadow
 
               xs:text-[2.5rem]
               sm:mt-6
@@ -633,7 +626,7 @@ export default function Hero() {
             <span
               className="
                 block
-                text-[#67c347]
+                text-accent
                 sm:whitespace-nowrap
               "
             >
@@ -651,8 +644,8 @@ export default function Hero() {
                 max-w-[600px]
                 text-[1.05rem]
                 leading-[1.75]
-                text-white/85
-                [text-shadow:0_1px_10px_rgba(0,0,0,0.5)]
+                text-foreground/90
+                hero-text-shadow
                 sm:text-[1.1rem]
               "
             >
@@ -669,7 +662,7 @@ export default function Hero() {
               "
             >
               {hero.labels.map((label) => (
-                <SpecLabel key={label} tone="onDark">
+                <SpecLabel key={label} className="bg-background/60 text-foreground">
                   {label}
                 </SpecLabel>
               ))}
@@ -694,8 +687,8 @@ export default function Hero() {
               magnetic
               className="
                 w-full
-                bg-[#1858a7]
-                text-white
+                bg-primary
+                text-primary-foreground
                 sm:w-auto
               "
             >
@@ -708,11 +701,8 @@ export default function Hero() {
               variant="outline"
               className="
                 w-full
-                border-white/30
-                bg-white/5
-                text-white
+                bg-background/50
                 backdrop-blur-md
-                hover:bg-white/10
                 sm:w-auto
               "
             >
@@ -726,7 +716,7 @@ export default function Hero() {
               className="
                 mt-6
                 text-sm
-                text-white/65
+                text-foreground/80
               "
             >
               Or call toll-free{" "}
@@ -739,13 +729,13 @@ export default function Hero() {
                   items-center
                   gap-1.5
                   font-semibold
-                  text-white
+                  text-foreground
                 "
               >
                 <Phone
                   className="
                     size-3.5
-                    text-[#68c448]
+                    text-accent
                   "
                   strokeWidth={1.5}
                   aria-hidden="true"
@@ -759,9 +749,9 @@ export default function Hero() {
               className="
                 mt-7
                 border-t
-                border-white/15
+                border-border-strong
                 pt-4
-                text-white/50
+                text-foreground/75
               "
             />
           </div>
@@ -809,7 +799,7 @@ export default function Hero() {
               object-contain
               object-center
               lg:object-right-bottom
-              drop-shadow-[0_38px_40px_rgba(0,0,0,0.45)]
+              hero-truck-shadow
             "
           />
         </div>
@@ -831,7 +821,7 @@ export default function Hero() {
           h-24
           w-[50%]
           rounded-[100%]
-          bg-black/35
+          hero-floor
           blur-3xl
           lg:block
         "
@@ -864,12 +854,12 @@ export default function Hero() {
             place-items-center
             rounded-md
             border
-            border-white/20
-            bg-[#071b31]/70
-            text-white
+            border-border-strong
+            bg-background/70
+            text-foreground
             backdrop-blur-md
             transition
-            hover:bg-white/10
+            hover:bg-elevated
           "
         >
           <span

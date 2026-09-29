@@ -7,6 +7,8 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CtaLink from "@/components/ui/CtaLink";
 import Icon from "@/components/ui/Icon";
+import DottedField from "@/components/decor/DottedField";
+import { REVEAL } from "@/lib/motion";
 
 /**
  * Services — a ruled list of 7 rows (number · name + group · one line · icon · arrow), not cards. Sticky heading left.
@@ -15,7 +17,8 @@ import Icon from "@/components/ui/Icon";
  */
 export default function ServiceGrid() {
   return (
-    <section aria-labelledby="services-title" className="section-y">
+    <section aria-labelledby="services-title" className="relative isolate section-y">
+        <DottedField side="right" />
       <div className="container-x grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">
@@ -31,7 +34,7 @@ export default function ServiceGrid() {
         <ol className="border-t border-border-strong lg:col-span-8">
           {services.map((service, i) => (
             <li key={service.slug}>
-              <ScrollReveal delay={i * 0.04} y={12}>
+              <ScrollReveal delay={i * REVEAL.stagger} y={12}>
                 <Link
                   href={serviceHref(service.slug)}
                   className="hv-row grid grid-cols-[2.25rem_1fr_auto] items-start gap-x-4 gap-y-1 border-b border-border px-1 py-5 sm:grid-cols-[2.75rem_minmax(0,5fr)_minmax(0,6fr)_auto] sm:items-center sm:gap-x-6 sm:px-3 sm:py-6"

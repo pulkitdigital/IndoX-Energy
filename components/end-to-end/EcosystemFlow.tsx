@@ -91,7 +91,7 @@ export default function EcosystemFlow({ index }: { index: string }) {
                         active ? "border-accent bg-accent" : "border-border-strong bg-background",
                       )}
                     />
-                    <span className={cn("block transition-opacity duration-500", active ? "opacity-100" : "opacity-55")}>
+                    <span className="block">
                       <span className="label-caps flex items-center gap-2 text-muted-foreground">
                         <span className={active ? "text-link" : undefined}>{String(i + 1).padStart(2, "0")}</span>
                         <Icon name={node.icon} className="hv-icon size-4 text-accent" />

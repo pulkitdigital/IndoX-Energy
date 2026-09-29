@@ -14,6 +14,7 @@ import OverviewGrid from "@/components/templates/OverviewGrid";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import RouteLine from "@/components/decor/RouteLine";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({ ...copy.seo, path: ROUTES.products });
@@ -60,7 +61,8 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section aria-labelledby="together-title" className="section-y">
+      <section aria-labelledby="together-title" className="relative isolate section-y">
+        <RouteLine/>
         <div className="container-x">
           <SectionHeading id="together-title" {...copy.together} layout="split" />
           <ul className="mt-12 border-t border-border">

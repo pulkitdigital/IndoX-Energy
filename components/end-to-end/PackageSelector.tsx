@@ -7,6 +7,9 @@ import { needs, recommend, type NeedId } from "@/content/packages";
 import CtaLink from "@/components/ui/CtaLink";
 import Icon from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
+import DottedField from "@/components/decor/DottedField";
+import { REVEAL } from "@/lib/motion";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 /**
  * "Build your package" (PRD §8.8) — client-side only; nothing is sent until the visitor clicks through to the quote
@@ -23,7 +26,8 @@ export default function PackageSelector({ index }: { index: string }) {
   const toggle = (id: NeedId) => setSelected((current) => (current.includes(id) ? current.filter((n) => n !== id) : [...current, id]));
 
   return (
-    <section aria-labelledby="package-title" className="section-y border-y border-border bg-elevated">
+    <section aria-labelledby="package-title" className="relative isolate section-y border-y border-border bg-elevated">
+        <DottedField side="left" />
       <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <SectionHeading id="package-title" index={index} eyebrow={copy.eyebrow} title={copy.title} description={copy.description} />
@@ -33,11 +37,11 @@ export default function PackageSelector({ index }: { index: string }) {
           <fieldset className="rounded-lg border border-border bg-card p-5 sm:p-6">
             <legend className="label-caps px-1 text-muted-foreground">{copy.legend}</legend>
             <div className="mt-2 grid gap-2 sm:grid-cols-2">
-              {needs.map((need) => (
+              {needs.map((need, i) => (
+                <ScrollReveal key={need.id} delay={i * REVEAL.stagger} y={14}>
                 <label
-                  key={need.id}
                   htmlFor={`${uid}-${need.id}`}
-                  className="hv-chip flex cursor-pointer items-center gap-3 rounded-md border border-border bg-background px-3.5 py-3 text-[0.9375rem] font-medium has-[:checked]:border-accent"
+                  className="hv-chip flex h-full cursor-pointer items-center gap-3 rounded-md border border-border bg-background px-3.5 py-3 text-[0.9375rem] font-medium has-[:checked]:border-accent has-[:checked]:bg-[var(--row-hover)]"
                 >
                   <input
                     id={`${uid}-${need.id}`}
@@ -48,6 +52,7 @@ export default function PackageSelector({ index }: { index: string }) {
                   />
                   {need.label}
                 </label>
+                </ScrollReveal>
               ))}
             </div>
           </fieldset>

@@ -75,6 +75,30 @@
   --grid-line: color-mix(in oklab, var(--color-brand-blue) 8%, transparent);
   --grid-line-major: color-mix(in oklab, var(--color-brand-blue) 7%, transparent);
 
+  --approach-chip: color-mix(in oklab, var(--color-brand-blue) 9%, transparent);
+  /* Hover system: row tint, pressed button, card / button shadows (real, visible lift) */
+  --row-hover: color-mix(in oklab, var(--color-brand-blue) 8%, var(--bg));
+  --primary-active: color-mix(in oklab, var(--color-brand-blue) 70%, var(--color-brand-navy));
+  --shadow-lift:
+    0 2px 6px color-mix(in oklab, var(--color-brand-navy) 10%, transparent),
+    0 20px 34px -16px color-mix(in oklab, var(--color-brand-navy) 38%, transparent);
+  --shadow-btn: 0 10px 20px -10px color-mix(in oklab, var(--color-brand-blue) 75%, transparent);
+
+  /* Decorative section backgrounds (components/decor): one brand ink at a whisper of opacity */
+  --decor-ink: var(--color-brand-blue);
+  --decor-accent: var(--color-brand-green);
+  --decor-opacity: 0.16;
+
+  /* Home hero scrims over the industrial photo. Light: pale wash so the photo reads brighter; text turns to ink. */
+  --hero-base: color-mix(in oklab, var(--bg) 30%, transparent);
+  --hero-side-from: color-mix(in oklab, var(--bg) 94%, transparent);
+  --hero-side-via: color-mix(in oklab, var(--bg) 80%, transparent);
+  --hero-side-to: color-mix(in oklab, var(--bg) 8%, transparent);
+  --hero-bottom: color-mix(in oklab, var(--bg) 70%, transparent);
+  --hero-text-shadow: none;
+  --hero-truck-shadow: color-mix(in oklab, var(--color-brand-navy) 26%, transparent);
+  --hero-floor: color-mix(in oklab, var(--color-brand-navy) 14%, transparent);
+
   color-scheme: light;
 }
 
@@ -113,6 +137,27 @@
   /* Hero grid on navy: blue-glow (brand-blue is fill-only on dark) at ~12%; every 4th line ~20% combined */
   --grid-line: color-mix(in oklab, var(--color-brand-blue-glow) 12%, transparent);
   --grid-line-major: color-mix(in oklab, var(--color-brand-blue-glow) 9%, transparent);
+
+  --approach-chip: color-mix(in oklab, var(--color-brand-lime) 10%, transparent);
+  --row-hover: color-mix(in oklab, var(--color-brand-blue-glow) 14%, var(--bg));
+  --primary-active: color-mix(in oklab, var(--color-brand-blue) 75%, var(--color-brand-navy));
+  --shadow-lift:
+    0 2px 6px color-mix(in oklab, var(--color-brand-navy) 60%, transparent),
+    0 22px 38px -16px color-mix(in oklab, var(--color-brand-navy) 100%, transparent);
+  --shadow-btn: 0 10px 22px -10px color-mix(in oklab, var(--color-brand-navy) 100%, transparent);
+  --decor-ink: var(--color-brand-blue-glow);
+  --decor-accent: var(--color-brand-lime);
+  --decor-opacity: 0.18;
+
+  /* Home hero scrims: deep navy, darker on the text side. */
+  --hero-base: color-mix(in oklab, var(--color-brand-navy) 35%, transparent);
+  --hero-side-from: color-mix(in oklab, var(--color-brand-navy) 88%, transparent);
+  --hero-side-via: color-mix(in oklab, color-mix(in oklab, var(--color-brand-blue) 40%, var(--color-brand-navy)) 58%, transparent);
+  --hero-side-to: color-mix(in oklab, var(--color-brand-blue) 10%, transparent);
+  --hero-bottom: color-mix(in oklab, var(--color-brand-navy) 75%, transparent);
+  --hero-text-shadow: 0 2px 18px color-mix(in oklab, var(--color-brand-navy) 70%, transparent);
+  --hero-truck-shadow: color-mix(in oklab, var(--color-brand-navy) 55%, transparent);
+  --hero-floor: color-mix(in oklab, var(--color-brand-navy) 40%, transparent);
 
   color-scheme: dark;
 }
@@ -179,6 +224,49 @@
 }
 @utility bg-flow-y {
   background-image: linear-gradient(180deg, var(--flow-start), var(--color-brand-green), var(--color-brand-lime));
+}
+
+/* Home hero scrims (theme tokens above). Below lg the copy spans the full width, so the side scrim stays strong across it. */
+@utility hero-scrim-base {
+  background-color: var(--hero-base);
+}
+@utility hero-scrim-side {
+  background-image: linear-gradient(to right, var(--hero-side-from), var(--hero-side-via) 60%, var(--hero-side-to));
+  @media (max-width: 1023.98px) {
+    background-image: linear-gradient(to right, var(--hero-side-from), var(--hero-side-via) 85%, var(--hero-side-via));
+  }
+}
+@utility hero-scrim-bottom {
+  background-image: linear-gradient(to top, var(--hero-bottom), transparent);
+}
+@utility hero-text-shadow {
+  text-shadow: var(--hero-text-shadow);
+}
+@utility hero-truck-shadow {
+  filter: drop-shadow(0 38px 40px var(--hero-truck-shadow));
+}
+@utility hero-floor {
+  background-color: var(--hero-floor);
+}
+
+/* Our Approach: active row chip (solid tint, no gradient) and the numeral's soft ring, which pulses twice. */
+@utility bg-approach-chip {
+  background-color: var(--approach-chip);
+}
+@keyframes approach-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+}
+@utility approach-pulse {
+  animation-name: approach-pulse;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
 }
 
 /* Hero grid: solid 1px lines drawn with hard-stop repeating gradients (no colour blending), one layer per
@@ -311,7 +399,7 @@
     color: var(--text);
   }
   :focus-visible {
-    outline: 2px solid var(--link);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
 }
@@ -357,8 +445,9 @@
   .hv-fade-in,
   .hv-accent,
   .hv-bar,
+  .hv-frame,
   .hv-text-link {
-    transition-property: transform, opacity, color, background-color, border-color, text-decoration-color, text-decoration-thickness;
+    transition-property: transform, opacity, color, background-color, border-color, box-shadow, text-decoration-color, text-decoration-thickness;
     transition-duration: var(--hv-dur, 200ms);
     transition-timing-function: var(--hv-ease, ease-out);
   }
@@ -382,7 +471,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -3px;
+    bottom: -4px;
     height: 2px;
     background-color: var(--accent);
     transform: scaleX(0);
@@ -440,20 +529,39 @@
   .hv-card:hover {
     transform: translateY(var(--hv-lift));
     border-color: var(--accent);
+    box-shadow: var(--shadow-lift);
   }
-  .hv-surface:hover,
+  .hv-surface:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lift);
+  }
   .hv-btn-line:hover {
     border-color: var(--accent);
+    transform: translateY(var(--hv-lift-sm));
+    box-shadow: var(--shadow-btn);
   }
   .hv-row:hover {
-    background-color: var(--surface-hover);
+    background-color: var(--row-hover);
   }
   .hv-menu:hover {
-    background-color: var(--bg-elevated);
+    background-color: var(--row-hover);
   }
   .hv-btn:hover {
     background-color: var(--primary-hover);
     transform: translateY(var(--hv-lift-sm));
+    box-shadow: var(--shadow-btn);
+  }
+  /* Pressed: settles back down and darkens. */
+  .hv-btn:active {
+    background-color: var(--primary-active);
+    transform: translateY(0);
+    box-shadow: none;
+    transition-duration: 60ms;
+  }
+  .hv-btn-line:active {
+    transform: translateY(0);
+    box-shadow: none;
+    transition-duration: 60ms;
   }
   .hv-btn-line:hover::before,
   .hv-link:hover::after {
@@ -462,7 +570,17 @@
   }
   .hv-chip:hover {
     border-color: var(--accent);
+    background-color: var(--row-hover);
     transform: translateY(var(--hv-lift-sm));
+    box-shadow: var(--shadow-btn);
+  }
+  .hv-group:hover .hv-frame {
+    border-color: var(--accent);
+    transform: translateY(var(--hv-lift));
+    box-shadow: var(--shadow-lift);
+  }
+  table tbody tr:hover {
+    background-color: var(--row-hover);
   }
   .hv-text-link:hover {
     color: var(--link);
@@ -515,20 +633,32 @@
 .hv-card:is(:focus-visible, :has(:focus-visible)) {
   transform: translateY(var(--hv-lift));
   border-color: var(--accent);
+  box-shadow: var(--shadow-lift);
 }
-.hv-surface:is(:focus-visible, :has(:focus-visible)),
+.hv-surface:is(:focus-visible, :has(:focus-visible)) {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lift);
+}
 .hv-btn-line:focus-visible {
   border-color: var(--accent);
+  transform: translateY(var(--hv-lift-sm));
+  box-shadow: var(--shadow-btn);
 }
 .hv-row:is(:focus-visible, :has(:focus-visible)) {
-  background-color: var(--surface-hover);
+  background-color: var(--row-hover);
 }
 .hv-menu:is(:focus-visible, :has(:focus-visible)) {
-  background-color: var(--bg-elevated);
+  background-color: var(--row-hover);
 }
 .hv-btn:focus-visible {
   background-color: var(--primary-hover);
   transform: translateY(var(--hv-lift-sm));
+  box-shadow: var(--shadow-btn);
+}
+.hv-group:has(:focus-visible) .hv-frame {
+  border-color: var(--accent);
+  transform: translateY(var(--hv-lift));
+  box-shadow: var(--shadow-lift);
 }
 .hv-btn-line:focus-visible::before,
 .hv-link:focus-visible::after,
@@ -538,7 +668,9 @@
 }
 .hv-chip:is(:focus-visible, :has(:focus-visible)) {
   border-color: var(--accent);
+  background-color: var(--row-hover);
   transform: translateY(var(--hv-lift-sm));
+  box-shadow: var(--shadow-btn);
 }
 .hv-text-link:focus-visible {
   color: var(--link);
@@ -581,6 +713,60 @@
   border-color: var(--accent);
 }
 
+/* Form fields: a clear accent border + a flat 3px accent ring (box-shadow, no blur) on focus; the label shifts colour. */
+input:not([type="checkbox"], [type="radio"], [type="range"]),
+select,
+textarea {
+  transition:
+    border-color var(--hv-dur, 200ms) var(--hv-ease, ease-out),
+    box-shadow var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+}
+input:not([type="checkbox"], [type="radio"], [type="range"]):focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 32%, transparent);
+}
+form div:focus-within > label:not(.sr-only) {
+  color: var(--link);
+}
+form div > label:not(.sr-only) {
+  transition: color var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+}
+table tbody tr {
+  transition: background-color var(--hv-dur, 200ms) var(--hv-ease, ease-out);
+}
+
+/* WhatsApp float: a soft ring expands once every few seconds while idle (hover keeps its own single ring). */
+.hv-float {
+  position: fixed;
+}
+.hv-float::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  animation: hv-idle-ring 6s ease-out 2s infinite;
+}
+@keyframes hv-idle-ring {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  14% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
 /* Buttons on the solid brand-blue band: white-based hover colours instead of the theme tokens. */
 .hv-btn-line.on-brand {
   --hv-wipe: color-mix(in oklab, var(--color-on-brand) 14%, var(--color-brand-blue));
@@ -592,6 +778,9 @@
   .hv-btn-line.on-brand:hover {
     border-color: var(--color-on-brand);
   }
+}
+.on-brand:focus-visible {
+  outline-color: var(--color-on-brand);
 }
 .hv-btn.on-brand:focus-visible {
   background-color: color-mix(in oklab, var(--color-on-brand) 88%, var(--color-brand-blue));
@@ -627,6 +816,8 @@
 @media (prefers-reduced-motion: reduce) {
   .hv-card,
   .hv-btn,
+  .hv-btn-line,
+  .hv-frame,
   .hv-chip,
   .hv-float,
   .hv-img,
@@ -638,8 +829,13 @@
   .hv-bar {
     transform: none !important;
   }
-  .hv-float::after {
+  .hv-float::after,
+  .hv-float::before,
+  .approach-pulse {
     animation: none !important;
+  }
+  .approach-pulse {
+    display: none;
   }
   /* Hover-revealed bars appear in place (opacity) instead of sliding. */
   .hv-bar {
