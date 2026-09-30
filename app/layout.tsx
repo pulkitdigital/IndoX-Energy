@@ -23,6 +23,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: company.name,
   formatDetection: { telephone: false },
+  icons: {
+    icon: [{ url: "/logo/favicon.png", type: "image/png" }],
+    shortcut: "/logo/favicon.png",
+    apple: "/logo/favicon.png",
+  },
 };
 
 export const viewport: Viewport = {
