@@ -69,15 +69,74 @@ const ART: Record<string, () => React.JSX.Element> = {
   "bio-pump": BioPumpArt,
 };
 
+/* ------------------------------------------------------------------
+ * Section background scene. Kept minimal: one dot grid (top-left), one storage tank on a pipeline
+ * (bottom-left), one hill line with two leaves (bottom-right). Hidden below md.
+ * Colour comes only from --decor-ink / --decor-accent, opacity from --decor-opacity,
+ * so it follows light/dark mode. No CSS gradients (SVG <pattern> for the dots).
+ * ------------------------------------------------------------------ */
+function SectionScene() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden text-(--decor-ink) opacity-(--decor-opacity) md:block"
+    >
+      <svg
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="absolute inset-0 h-full w-full"
+      >
+        <defs>
+          <pattern id="offerings-dots" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.6" fill="currentColor" stroke="none" />
+          </pattern>
+        </defs>
+
+        {/* Dot grid, top-left */}
+        <rect x="0" y="0" width="360" height="240" fill="url(#offerings-dots)" stroke="none" />
+
+        {/* Storage tank on a pipeline, bottom-left */}
+        <g>
+          <path d="M60 900V740a64 26 0 0 1 128 0v160" />
+          <path d="M60 740a64 26 0 0 0 128 0" />
+          <path d="M60 820a64 26 0 0 0 128 0" />
+          <path d="M0 868h420" />
+          <circle cx="124" cy="868" r="7" />
+        </g>
+
+        {/* Hill line with two leaves, bottom-right */}
+        <g>
+          <path d="M1000 840C1120 790 1260 790 1440 840" />
+        </g>
+        <g className="text-(--decor-accent)">
+          <g fill="currentColor" fillOpacity="0.4">
+            <path d="M1250 760c0-48 32-78 78-78 0 48-30 80-78 78z" />
+            <path d="M1140 800c0-30 22-48 50-48 0 30-20 50-50 48z" />
+          </g>
+          <path d="M1250 760l46-46M1140 800l30-30" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 /**
  * Franchise offerings: two equal cards (side by side from md, stacked below; equal heights via auto-rows-fr).
  * Every card is one left-aligned column: badge, kicker, heading, description, checklist, CTA, then a
  * divider and a two-column differentiator row pinned to the bottom (mt-auto).
  * ScrollReveal owns the entrance transform, hv-card the hover lift (nested).
+ * The section itself carries the decorative scene (-z-10 inside an isolated stacking context).
  */
 export default function OfferingsSplit() {
   return (
-    <section aria-labelledby="offerings-title" className="section-y">
+    <section aria-labelledby="offerings-title" className="section-y relative isolate overflow-hidden">
+      <SectionScene />
+
       <div className="container-x">
         <SectionHeading id="offerings-title" {...franchiseIntro} />
 
