@@ -358,6 +358,24 @@
     @apply font-sans;
     background-color: var(--bg);
     -webkit-tap-highlight-color: transparent;
+    /* Page scrollbar (and every inner scroll region, inherited): solid themed thumb on a faint border-tint track. */
+    --scrollbar-thumb: var(--link);
+    --scrollbar-track: color-mix(in oklab, var(--border) 45%, var(--bg));
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+  /* Engines without scrollbar-color (older Safari). */
+  @supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: var(--scrollbar-track);
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb);
+      border-radius: 4px;
+    }
   }
   body {
     @apply bg-background text-foreground antialiased;

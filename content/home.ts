@@ -30,6 +30,59 @@ export const hero = {
   labels: ["Metered", "Documented", "GST invoiced"],
 };
 
+/* 7b — Two offerings (split cards between the EV teaser and Industries; unnumbered so sections 01–10 keep their numbers) */
+export type Offering = {
+  id: string;
+  icon: IconName;
+  /** Card surface tint: blue = bg-elevated, green = bg-tint-green. Solid tokens, never a gradient. */
+  tone: "blue" | "green";
+  tag: string;
+  /** Each entry is one line of the card heading. */
+  titleLines: [string, string];
+  description: string;
+  cta: { label: string; href: string };
+  /** Two short differentiators already stated elsewhere on the site. Never numbers or counters. */
+  stats: [{ value: string; label: string }, { value: string; label: string }];
+};
+
+export const offeringsIntro: SectionIntro = {
+  eyebrow: "Fuel and EV",
+  title: "Two lines of work, one team",
+};
+
+export const offerings: Offering[] = [
+  {
+    id: "fuel",
+    icon: "fuel",
+    tone: "blue",
+    tag: "For sites, plants and fleets",
+    titleLines: ["Doorstep diesel", "and bulk fuel supply"],
+    // = products.ts › hsd-diesel-supply › promise
+    description: "Bulk high-speed diesel for eligible businesses, drawn from authorized sources and supplied as per applicable regulations.",
+    cta: { label: "Get a Quote", href: quoteHref({ product: "hsd-diesel-supply" }) },
+    // = approachSteps › deliver
+    stats: [
+      { value: "Metered delivery", label: "A delivery document each time." },
+      { value: "GST invoiced", label: "Against the delivered quantity." },
+    ],
+  },
+  {
+    id: "ev",
+    icon: "plugZap",
+    tone: "green",
+    tag: "For host sites and depots",
+    titleLines: ["AC and DC EV charging,", "from site survey to AMC"],
+    // = ev.ts › solutions.description (not the hero promise: the EV teaser directly above already says that)
+    description: "Everything a host site needs, from the charger on the wall to the support after it goes live.",
+    cta: { label: "Book a Site Survey", href: quoteHref({ service: "ev-charging" }) },
+    // = ev.ts › solutions.items (the teaser above already lists AC/DC and the site survey)
+    stats: [
+      { value: "OCPP integration", label: "Chargers connect to a management platform." },
+      { value: "Monitoring platform", label: "Charger status, sessions and usage on one dashboard." },
+    ],
+  },
+];
+
 /* 3 — Our Approach */
 export type ApproachStep = {
   id: string;
@@ -181,7 +234,7 @@ export const evTeaser = {
 
 /* 8 — Industries + segments */
 export const industriesIntro: SectionIntro = {
-  index: "06",
+  index: "07",
   eyebrow: "Industries",
   title: "Sites that can't stop for fuel",
   description: "When a DG set, excavator or truck runs dry, work stops with it. These are the sectors we plan for.",
@@ -191,7 +244,7 @@ export const segmentsLabel = "Customer segments";
 
 /* 9 — End-to-end teaser */
 export const endToEndTeaser = {
-  index: "07",
+  index: "08",
   eyebrow: "End-to-End",
   title: "One partner from first litre to first charge",
   description: "Take one step or the whole chain. Each connects to the next, and one team answers for all of it.",
@@ -209,7 +262,7 @@ export const endToEndTeaser = {
 
 /* 10 — Pan-India network */
 export const networkIntro: SectionIntro = {
-  index: "08",
+  index: "09",
   eyebrow: "Network",
   title: "Check delivery to your site",
   description:
@@ -233,7 +286,7 @@ export const coverageCopy = {
 
 /* 11 — Why IndoX (titles exactly as PRD §8.1) */
 export const whyIntro: SectionIntro = {
-  index: "09",
+  index: "10",
   eyebrow: "Why IndoX",
   title: "Why IndoX Energy",
 };
@@ -249,9 +302,68 @@ export const whyPoints: { icon: IconName; title: string; description: string }[]
 
 /* 12 — Blog */
 export const blogIntro: SectionIntro = {
-  index: "10",
+  index: "11",
   eyebrow: "Blog",
   title: "Notes for site and fuel managers",
 };
 
 export const blogLabels = { viewAll: "All articles", readMore: "Read article" };
+
+
+
+/* 7c — Franchise (two cards; unnumbered like the offerings split so sections 01–10 keep their numbers) */
+export type FranchiseOffer = {
+  id: string;
+  icon: IconName;
+  /** Card surface tint: blue = bg-elevated, green = bg-tint-green. Solid tokens, never a gradient. */
+  tone: "blue" | "green";
+  badge: string;
+  kicker: string;
+  /** Each entry is one line of the card heading. */
+  titleLines: [string, string];
+  description: string;
+  points: string[];
+  cta: { label: string; href: string };
+  /** Two short differentiators. Never invented numbers or counters. */
+  stats: [{ value: string; label: string }, { value: string; label: string }];
+};
+
+export const franchiseIntro: SectionIntro = {
+  index: "06",
+  eyebrow: "Franchise",
+  title: "Start your own fuel business",
+  description: "Two ways to join us. We help with setup, supply and support.",
+};
+
+export const franchiseOffers: FranchiseOffer[] = [
+  {
+    id: "bowser",
+    icon: "truck",
+    tone: "blue",
+    badge: "High-demand franchise opportunity",
+    kicker: "Bowser tank for",
+    titleLines: ["Door-to-door diesel", "delivery business"],
+    description: "Start a petroleum franchise with certified bowser tanks, direct supply and complete setup support.",
+    points: ["Certified bowser tanks", "Direct fuel supply", "Complete setup support"],
+    cta: { label: "Get an Enquiry", href: ROUTES.quote },
+    stats: [
+      { value: "Metered delivery", label: "A delivery document each time." },
+      { value: "Authorized sources", label: "Supplied as per applicable regulations." },
+    ],
+  },
+  {
+    id: "bio-pump",
+    icon: "leaf",
+    tone: "green",
+    badge: "Clean energy franchise",
+    kicker: "New franchise setup for",
+    titleLines: ["Bio diesel &", "bio petrol pump"],
+    description: "Start an eco-friendly bio pump franchise. We provide setup assistance, site layout design, licence support and direct fuel supply.",
+    points: ["Setup assistance", "Site layout design", "Licence support"],
+    cta: { label: "Get an Enquiry", href: ROUTES.quote },
+    stats: [
+      { value: "Green fuel", label: "A cleaner-burning alternative." },
+      { value: "Direct supply", label: "Fuel supplied straight to your pump." },
+    ],
+  },
+];

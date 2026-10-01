@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { marqueeItems } from "@/content/home";
 import Hero from "@/components/home/Hero";
 import TrustStrip from "@/components/layout/TrustStrip";
+import OfferingsSplit from "@/components/home/OfferingsSplit";
 import OurApproachFlow from "@/components/home/OurApproachFlow";
 import Marquee from "@/components/animations/Marquee";
 import ProductGrid from "@/components/home/ProductGrid";
@@ -25,7 +26,7 @@ export function generateMetadata(): Metadata {
   });
 }
 
-/** Home — 13 sections in PRD §8.1 order (+ the text marquee between Approach and Products). */
+/** Home — 13 sections in PRD §8.1 order (+ the text marquee between Approach and Products and the two-offerings split between the EV teaser and Industries). */
 export default function HomePage() {
   return (
     <>
@@ -37,6 +38,7 @@ export default function HomePage() {
       <ServiceGrid />
       <TechDashboardPreview />
       <EVTeaser />
+      <OfferingsSplit />
       <IndustriesGrid />
       <EndToEndTeaser />
       <PanIndiaMap />
