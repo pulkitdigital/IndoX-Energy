@@ -99,15 +99,28 @@ export default function Header() {
               <ul className="flex items-center gap-4 2xl:gap-7">
                 {mainNav.map((item) =>
                   item.kind === "mega" ? (
-                    <li key={item.label} onMouseEnter={() => open(item.menu)}>
-                      <button
-                        type="button"
-                        aria-expanded={openMenu === item.menu}
-                        aria-controls={`mega-${item.menu}`}
-                        onClick={() => (openMenu === item.menu ? setOpenMenu(null) : open(item.menu))}
+                    <li key={item.label} onMouseEnter={() => open(item.menu)} className="flex items-center gap-0.5">
+                      {/* Label: navigates to the listing page (/products/ or /services/) */}
+                      <Link
+                        href={item.href}
+                        aria-current={isActive(item.href) ? "page" : undefined}
+                        onClick={() => setOpenMenu(null)}
                         className={cn(navItemClass, navTextClass(openMenu === item.menu || isActive(item.href)))}
                       >
                         {item.label}
+                      </Link>
+                      {/* Chevron: toggles the mega menu (keyboard / touch friendly) */}
+                      <button
+                        type="button"
+                        aria-label={`${openMenu === item.menu ? "Close" : "Open"} ${item.label} menu`}
+                        aria-expanded={openMenu === item.menu}
+                        aria-controls={`mega-${item.menu}`}
+                        onClick={() => (openMenu === item.menu ? setOpenMenu(null) : open(item.menu))}
+                        className={cn(
+                          "grid size-6 place-items-center rounded-sm transition-colors duration-200",
+                          navTextClass(openMenu === item.menu || isActive(item.href)),
+                        )}
+                      >
                         <ChevronDown
                           className={cn("size-3.5 transition-transform duration-300", openMenu === item.menu && "rotate-180")}
                           strokeWidth={1.5}
